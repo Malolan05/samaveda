@@ -126,10 +126,41 @@
     }
     .sidebar-search input:focus { border-color: var(--ember-soft); }
     .sidebar-search input::placeholder { color: var(--ash-dim); }
-    .sidebar-search svg {
+    .sidebar-search input { padding-right: 26px; }
+    .sidebar-search svg.icn {
       position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
       width: 14px; height: 14px; stroke: var(--ash-dim);
+      pointer-events: none;
     }
+    .sidebar-search .sf-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--ash-dim);
+      cursor: pointer; padding: 2px; display: none; line-height: 0;
+    }
+    .sidebar-search .sf-clear.show { display: block; }
+    .sidebar-search .sf-clear:hover { color: var(--ember); }
+    .sidebar-search .sf-clear svg { width: 12px; height: 12px; }
+
+    .sidebar-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .sidebar-actions button {
+      flex: 1;
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--ash);
+      font-family: var(--sans);
+      font-size: 10.5px;
+      font-weight: 500;
+      padding: 5px 6px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+    .sidebar-actions button:hover { border-color: var(--ember-soft); color: var(--ember); }
+
     .sidebar-tree {
       flex: 1;
       overflow-y: auto;
@@ -138,6 +169,23 @@
     .sidebar-tree::-webkit-scrollbar { width: 8px; }
     .sidebar-tree::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
     .sidebar-tree::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-empty {
+      padding: 20px 10px;
+      font-size: 12px;
+      color: var(--ash-dim);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .sidebar-foot {
+      padding: 10px 20px;
+      border-top: 1px solid var(--line);
+      font-size: 10.5px;
+      color: var(--ash-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .sidebar-foot b { color: var(--gold); font-weight: 600; }
 
     .text-group { margin-bottom: 2px; }
     .text-toggle {
@@ -210,6 +258,8 @@
     .section-item.open > .section-toggle .chev { transform: rotate(90deg); }
     .section-toggle span.label { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .section-toggle .count { font-size:10px; color:var(--ash-dim); }
+    .section-item.active-section > .section-toggle { color: var(--ember); background: rgba(179,93,44,.08); }
+    .section-item.active-section > .section-toggle .count { color: var(--ember-soft); }
 
     .rik-list {
       max-height: 0;
@@ -691,11 +741,19 @@
         </div>
       </div>
       <div class="sidebar-search">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
+        <svg class="icn" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
         <input type="text" id="sidebarFilter" placeholder="Filter sections & r̥ks…">
+        <button class="sf-clear" id="sidebarFilterClear" title="Clear filter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="sidebar-actions">
+        <button id="expandAll">Expand all</button>
+        <button id="collapseAll">Collapse all</button>
       </div>
     </div>
     <nav class="sidebar-tree" id="sidebarTree"></nav>
+    <div class="sidebar-foot" id="sidebarFoot"></div>
   </aside>
 
   <main class="main">
@@ -938,13 +996,18 @@
 
   function highlightSidebarRik(ti, si, ri){
     document.querySelectorAll('.rik-link.current').forEach(el => el.classList.remove('current'));
+    document.querySelectorAll('.text-toggle.active-text').forEach(el => el.classList.remove('active-text'));
+    document.querySelectorAll('.section-item.active-section').forEach(el => el.classList.remove('active-section'));
     const btn = document.querySelector(`.rik-link[data-text-idx="${ti}"][data-sec-idx="${si}"][data-rik-idx="${ri}"]`);
     if(btn){
       btn.classList.add('current');
       const secItem = btn.closest('.section-item');
       const group = btn.closest('.text-group');
-      if(secItem) secItem.classList.add('open');
-      if(group) group.classList.add('open');
+      if(secItem) secItem.classList.add('open', 'active-section');
+      if(group){
+        group.classList.add('open');
+        group.querySelector(':scope > .text-toggle')?.classList.add('active-text');
+      }
       btn.scrollIntoView({block:'nearest'});
     }
   }
@@ -965,10 +1028,27 @@
   }
   if(window.innerWidth <= 720){ sidebar.classList.add('collapsed'); }
 
+  /* ---------------- sidebar expand/collapse all ---------------- */
+  document.getElementById('expandAll').addEventListener('click', () => {
+    document.querySelectorAll('.text-group').forEach(g => g.classList.add('open'));
+    document.querySelectorAll('.section-item').forEach(s => s.classList.add('open'));
+  });
+  document.getElementById('collapseAll').addEventListener('click', () => {
+    document.querySelectorAll('.text-group').forEach(g => g.classList.remove('open'));
+    document.querySelectorAll('.section-item').forEach(s => s.classList.remove('open'));
+  });
+
   /* ---------------- sidebar filter ---------------- */
-  document.getElementById('sidebarFilter').addEventListener('input', (e) => {
-    const q = e.target.value.trim().toLowerCase();
+  const sidebarFilterInput = document.getElementById('sidebarFilter');
+  const sidebarFilterClear = document.getElementById('sidebarFilterClear');
+  let sidebarEmptyMsg = null;
+
+  function applySidebarFilter(qRaw){
+    const q = qRaw.trim().toLowerCase();
+    sidebarFilterClear.classList.toggle('show', !!q);
+    let anyMatch = false;
     document.querySelectorAll('.text-group').forEach(group => {
+      const groupLabel = group.querySelector(':scope > .text-toggle .label').textContent.toLowerCase();
       let groupHasMatch = false;
       group.querySelectorAll('.section-item').forEach(secItem => {
         let secHasMatch = false;
@@ -978,14 +1058,33 @@
           if(match) secHasMatch = true;
         });
         const secLabel = secItem.querySelector('.section-toggle .label').textContent.toLowerCase();
-        const secMatch = secHasMatch || !q || secLabel.includes(q);
+        const secMatch = secHasMatch || !q || secLabel.includes(q) || groupLabel.includes(q);
         secItem.style.display = secMatch ? '' : 'none';
         if(secMatch) groupHasMatch = true;
-        if(q && secHasMatch) secItem.classList.add('open');
+        if(q && secMatch) secItem.classList.add('open'); else if(!q) secItem.classList.remove('open');
       });
       group.style.display = groupHasMatch || !q ? '' : 'none';
-      if(q && groupHasMatch) group.classList.add('open');
+      if(groupHasMatch) anyMatch = true;
+      if(q && groupHasMatch) group.classList.add('open'); else if(!q) group.classList.remove('open');
     });
+
+    if(q && !anyMatch){
+      if(!sidebarEmptyMsg){
+        sidebarEmptyMsg = document.createElement('div');
+        sidebarEmptyMsg.className = 'sidebar-empty';
+        sidebarEmptyMsg.textContent = 'No sections or r̥ks match your filter.';
+        treeRoot.appendChild(sidebarEmptyMsg);
+      }
+    } else if(sidebarEmptyMsg){
+      sidebarEmptyMsg.remove();
+      sidebarEmptyMsg = null;
+    }
+  }
+  sidebarFilterInput.addEventListener('input', (e) => applySidebarFilter(e.target.value));
+  sidebarFilterClear.addEventListener('click', () => {
+    sidebarFilterInput.value = '';
+    applySidebarFilter('');
+    sidebarFilterInput.focus();
   });
 
   /* ---------------- global content search ---------------- */
@@ -1221,6 +1320,8 @@
     renderAll();
     applyZoom();
     document.querySelectorAll('.text-group')[0]?.classList.add('open');
+    document.getElementById('sidebarFoot').innerHTML =
+      `<span><b>${DATA.length}</b> texts</span><span><b>${TOTAL_RIKS}</b> r̥ks</span><span><b>${TOTAL_SAMANS}</b> sāma-gānas</span>`;
   }
   contentInner.innerHTML = `<div class="empty-state"><p>Loading Sāmaveda …</p></div>`;
   init();
