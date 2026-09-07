@@ -1,3 +1,25 @@
+<!--
+  Sāmaveda Reader
+  ================
+  A single-file, static reader for the Sāmaveda saṁhitā.
+
+  How it works:
+    - This file contains ALL markup, styles, and behavior (no build step).
+    - Verse data is NOT embedded here — it's fetched at runtime from
+      "/data/samaveda.json" (see the `init()` function near the bottom
+      of the <script>). That JSON must sit in a `data/` folder next to
+      this index.html, and the page must be served over http(s)
+      (opening via file:// blocks the fetch in most browsers).
+    - The UI has three moving parts:
+        1. A collapsible sidebar tree (text → section → r̥k) for navigation.
+        2. A scrollable main content pane that renders every r̥k (verse)
+           and its associated sāma-gāna(s) (sung versions).
+        3. A topbar with a global fuzzy search, a text-zoom control,
+           and a light/dark theme toggle.
+    - Light/dark theme is implemented purely with CSS custom properties
+      (see the `:root` and `html[data-theme="dark"]` blocks below) and a
+      tiny bit of JS that flips the `data-theme` attribute on <html>.
+-->
 <!DOCTYPE html>
 <html lang="sa">
 <head>
@@ -8,32 +30,49 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* ==========================================================
+       DESIGN TOKENS (light theme / default)
+       Every color in this stylesheet is a var(--token) reference,
+       which is what makes the dark theme override below possible:
+       we only need to redefine the tokens, not every rule that
+       uses them.
+       ========================================================== */
     :root {
-      --bg: #f6f1e6;
-      --bg-soft: #efe7d5;
-      --panel: #fbf7ec;
-      --panel-2: #f1e9d8;
-      --line: #ded0af;
-      --line-soft: #e6dabd;
-      --ember: #b35d2c;
-      --ember-soft: #c98653;
-      --gold: #9c6c2e;
-      --ash: #6b5f4a;
-      --ash-dim: #948566;
-      --paper: #2a2013;
-      --paper-dim: #40331f;
-      --ok: #4f7a45;
-      --radius: 3px;
+      --bg: #f6f1e6;          /* page background */
+      --bg-soft: #efe7d5;     /* slightly darker background (topbar) */
+      --panel: #fbf7ec;       /* card / sidebar / input surfaces */
+      --panel-2: #f1e9d8;     /* hover state for panel surfaces */
+      --line: #ded0af;        /* primary borders / dividers */
+      --line-soft: #e6dabd;   /* faint borders (nested tree lines) */
+      --ember: #b35d2c;       /* primary accent (active states, links) */
+      --ember-soft: #c98653;  /* secondary/hover accent */
+      --gold: #9c6c2e;        /* secondary accent (labels, translit text) */
+      --ash: #6b5f4a;         /* mid-tone body text */
+      --ash-dim: #948566;     /* muted/placeholder text */
+      --paper: #2a2013;       /* strongest text color (headings) */
+      --paper-dim: #40331f;   /* body text color */
+      --ok: #4f7a45;          /* reserved success/positive color (unused directly) */
+      --radius: 3px;          /* shared corner radius for controls */
+
+      /* Font stacks */
       --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
       --serif: 'Fraunces', Georgia, serif;
+      /* Devanagari serif-ish stack, for the large Sanskrit verse text */
       --deva: 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Siddhanta', 'Sanskrit 2003',
               'Kohinoor Devanagari', 'Nirmala UI', 'Mangal', 'Kokila', 'Utsaah', 'Aparajita',
               'Lohit Devanagari', 'Arial Unicode MS', 'Segoe UI Historic', sans-serif, serif;
+      /* Devanagari sans stack, for smaller/secondary Sanskrit text (pada, meta) */
       --deva-sans: 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Nirmala UI', 'Mangal',
               'Kohinoor Devanagari', 'Kokila', 'Utsaah', 'Aparajita', 'Lohit Devanagari',
               'Arial Unicode MS', sans-serif;
     }
 
+    /* ==========================================================
+       DARK THEME OVERRIDE
+       Activated by JS setting <html data-theme="dark">. Only the
+       tokens change here — every component below inherits the new
+       colors automatically because they all reference var(--token).
+       ========================================================== */
     html[data-theme="dark"] {
       --bg: #191510;
       --bg-soft: #211b14;
@@ -51,6 +90,9 @@
       --ok: #7fae72;
     }
 
+    /* Soft ambient radial-gradient glow behind the whole page.
+       Kept as a pseudo-element so it never interferes with content
+       layout/scrolling (pointer-events: none, negative z-index). */
     body::before {
       content: "";
       position: fixed; inset: 0;
@@ -61,38 +103,44 @@
       z-index: 0;
       transition: opacity .2s;
     }
+    /* Dark mode gets a brighter/warmer glow so the page doesn't feel flat */
     html[data-theme="dark"] body::before {
       background-image:
         radial-gradient(circle at 15% 8%, rgba(224,138,79,.08), transparent 40%),
         radial-gradient(circle at 85% 90%, rgba(217,173,95,.06), transparent 45%);
     }
+    /* These two elements use a solid --ember/--ember background with
+       light text on top. Since --ember flips to a lighter/brighter
+       color in dark mode, the text color must flip too (dark-on-light)
+       to keep sufficient contrast — that's what these overrides do. */
     .rik-no-badge { color: #fbf7ec; }
     html[data-theme="dark"] .rik-no-badge { color: #191510; }
     mark { color: #fbf7ec; }
     html[data-theme="dark"] mark { color: #191510; }
 
+    /* ---------- base reset ---------- */
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; height: 100%; }
     body {
       background: var(--bg);
       color: var(--paper-dim);
       font-family: var(--sans);
-      overflow: hidden;
-      overscroll-behavior: none;
-      transition: background .2s, color .2s;
+      overflow: hidden;              /* the app scrolls internally (see .content), not the body */
+      overscroll-behavior: none;     /* stop pull-to-refresh / rubber-banding on mobile */
+      transition: background .2s, color .2s; /* smooth cross-fade when the theme is toggled */
     }
     img, svg { max-width: 100%; }
-    .content, .sidebar-tree { -webkit-overflow-scrolling: touch; }
+    .content, .sidebar-tree { -webkit-overflow-scrolling: touch; } /* momentum scroll on iOS */
 
-    /* ---------- layout ---------- */
+    /* ---------- layout: two-pane app shell (sidebar + main) ---------- */
     .app {
       display: flex;
       height: 100vh;
       position: relative;
-      z-index: 1;
+      z-index: 1;   /* sits above the fixed body::before glow */
     }
 
-    /* ---------- sidebar ---------- */
+    /* ---------- sidebar: navigation tree (texts → sections → r̥ks) ---------- */
     .sidebar {
       width: 300px;
       min-width: 300px;
@@ -103,6 +151,9 @@
       transition: margin-left .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1), background .2s, border-color .2s;
       position: relative;
     }
+    /* Collapsing the sidebar just slides it fully off-screen via negative
+       margin, rather than unmounting it — keeps its scroll position and
+       open/closed tree state intact when it's reopened. */
     .sidebar.collapsed { margin-left: -300px; }
     .sidebar-head {
       padding: 22px 20px 16px;
@@ -320,7 +371,9 @@
       height: 100vh;
     }
 
-    /* TOPBAR – fully centered */
+    /* ---------- topbar: sidebar toggle, search, zoom, theme toggle ----------
+       Everything is centered as a single flex row that wraps on narrow
+       screens (see the max-width:720px media query further down). */
     .topbar {
       display: flex;
       align-items: center;
@@ -413,22 +466,33 @@
     @media (min-width: 920px) { .crumb { display: block; } }
     .crumb b { color: var(--gold); font-weight: 500; }
 
-    /* theme toggle */
+    /* ---------- theme toggle button ----------
+       Both a sun and a moon SVG are always in the DOM, stacked on top
+       of each other via position:absolute. We simply fade + rotate
+       between them based on the current `data-theme` attribute — no
+       JS is needed to swap icon markup, only to flip the attribute. */
     #themeToggle {
       display: flex !important;
-      position: relative;
+      position: relative;   /* anchor for the two absolutely-positioned icons */
     }
     #themeToggle .icon-sun, #themeToggle .icon-moon {
       position: absolute;
       transition: opacity .15s, transform .25s;
     }
+    /* Dark mode: show moon, hide sun (rotated + shrunk out) */
     html[data-theme="dark"] #themeToggle .icon-sun { opacity: 0; transform: rotate(-60deg) scale(.6); }
     html[data-theme="dark"] #themeToggle .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+    /* Light mode (default / explicit): show sun, hide moon */
     html[data-theme="light"] #themeToggle .icon-sun,
     html:not([data-theme]) #themeToggle .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
     html[data-theme="light"] #themeToggle .icon-moon,
     html:not([data-theme]) #themeToggle .icon-moon { opacity: 0; transform: rotate(60deg) scale(.6); }
 
+    /* ---------- main content pane ----------
+       This is the single scrollable region for the whole app (the
+       body itself doesn't scroll). Its scroll position drives the
+       "scroll spy" logic in JS that updates the breadcrumb and
+       highlights the current r̥k in the sidebar. */
     .content {
       flex: 1;
       overflow-y: auto;
@@ -513,12 +577,16 @@
       background: linear-gradient(to right, var(--line), transparent);
     }
 
+    /* One .rik-card = one verse (r̥k), including its Sanskrit text,
+       pada-pāṭha (word-split text), notes, and any sāma-gāna(s). */
     .rik-card {
-      scroll-margin-top: 20px;
+      scroll-margin-top: 20px;  /* keeps the card clear of the sticky topbar when scrolled to */
       padding: 22px 0;
       border-bottom: 1px solid var(--line-soft);
     }
     .rik-card:last-child { border-bottom: none; }
+    /* Brief flash applied when a card is jumped to via search/sidebar click,
+       so the user's eye finds it immediately (see scrollToRik() in JS). */
     .rik-card.match-highlight {
       animation: pulseHi 1.6s ease;
     }
@@ -595,6 +663,8 @@
       margin: 6px 0 16px;
     }
 
+    /* A r̥k can have one or more sāma-gānas (sung melodic versions).
+       They're rendered as a small stack of cards beneath the verse. */
     .samagana-list {
       margin-top: 14px;
       display: flex;
@@ -608,10 +678,14 @@
       padding: 14px 18px;
       transition: opacity .15s, border-color .15s, background .2s;
     }
+    /* During a global search, if a specific sāma-gāna (not just its
+       parent r̥k) matched the query, it's outlined... */
     .samagana-item.sg-match {
       border-color: var(--ember-soft);
       box-shadow: 0 0 0 1px rgba(179,93,44,.15) inset;
     }
+    /* ...and its siblings that did NOT match are dimmed, to draw the
+       eye to the specific match within a r̥k that has several sāmans. */
     .samagana-item.sg-dim { opacity: .45; }
     .samagana-item-head {
       display: flex;
@@ -694,6 +768,9 @@
     .jump-top:hover { border-color: var(--ember-soft); color: var(--ember); }
     .jump-top svg { width: 16px; height: 16px; }
 
+    /* Dark scrim shown behind the sidebar on mobile when it's open as
+       an overlay drawer (see .sidebar's position:fixed rule below the
+       720px breakpoint). Tapping it closes the sidebar. */
     .sidebar-overlay {
       display: none;
       position: fixed; inset: 0;
@@ -702,7 +779,10 @@
     }
     .sidebar-overlay.show { display: block; }
 
-    /* ---------------- mobile / touch ---------------- */
+    /* ---------------- mobile / touch breakpoint ----------------
+       Below 720px the sidebar switches from "pushes content over"
+       to "fixed overlay drawer", and several paddings/sizes shrink
+       for small screens. */
     @media (max-width: 720px) {
       .sidebar {
         position: fixed; z-index: 20; top: 0; bottom: 0; left: 0;
@@ -748,6 +828,7 @@
       .jump-top { bottom: calc(18px + env(safe-area-inset-bottom)); right: 18px; width: 42px; height: 42px; }
     }
 
+    /* Extra-small phones: shrink a bit further still. */
     @media (max-width: 420px) {
       .sidebar { width: 88vw; max-width: none; }
       .brand-mark { font-size: 22px; }
@@ -833,7 +914,16 @@
 </button>
 
 <script>
-  /* ---------------- theme ---------------- */
+  /* ============================================================
+     THEME (light / dark)
+     Toggling theme is intentionally trivial: we just flip the
+     `data-theme` attribute on <html>, and every color in the CSS
+     re-resolves automatically because the stylesheet is built
+     entirely on custom-property tokens (see :root and
+     html[data-theme="dark"] in <style>).
+     Deliberately kept in memory only (no localStorage) — the app
+     always starts in light mode on a fresh load.
+     ============================================================ */
   let currentTheme = 'light';
   function applyTheme(t){
     currentTheme = t;
@@ -842,12 +932,21 @@
   document.getElementById('themeToggle').addEventListener('click', () => {
     applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
   });
-  applyTheme('light');
+  applyTheme('light'); // set the attribute explicitly on load so the CSS selectors have something to match
 
+  /* ============================================================
+     GLOBAL STATE
+     DATA holds the entire Sāmaveda dataset once fetched (see
+     init() near the bottom). Everything else in this file reads
+     from DATA rather than fetching per-view.
+     ============================================================ */
   let DATA = [];
-  let TOTAL_RIKS = 0;
-  let TOTAL_SAMANS = 0;
+  let TOTAL_RIKS = 0;    // total verse count across all texts, used for "R̥k №N of TOTAL" badges
+  let TOTAL_SAMANS = 0;  // total sāma-gāna count across all texts, used for the matching badge
 
+  // Human-readable metadata (transliteration + a one-glyph sidebar index)
+  // for each of the five top-level texts, keyed by the `key` field the
+  // JSON data uses to identify each one.
   const TEXT_META = {
     agneyam:   { translit: "Āgnēyam",           idx:"अ" },
     aindram:   { translit: "Aindram",           idx:"ऐ" },
@@ -856,14 +955,22 @@
     mahamnaya: { translit: "Mahānāmnyarcikam",  idx:"म" },
   };
 
-  let zoom = 1;
-  let currentRikEl = null;
+  let zoom = 1;            // multiplier applied to Sanskrit text sizes via the --zoom CSS var
+  let currentRikEl = null; // (reserved) currently-focused r̥k element
 
-  /* ---------------- sidebar tree build ---------------- */
+  /* ============================================================
+     SIDEBAR TREE
+     Builds the collapsible text → section → r̥k navigation tree
+     once, from DATA, after it's loaded. Each level is a button
+     that toggles an "open" class (CSS handles the expand/collapse
+     animation via max-height) and scrolls the main content pane
+     to the corresponding element.
+     ============================================================ */
   const treeRoot = document.getElementById('sidebarTree');
 
   function buildTree(){
     treeRoot.innerHTML = '';
+    // Level 1: one "text-group" per top-level text (e.g. Āgnēyam, Aindram...)
     DATA.forEach((text, ti) => {
       const meta = TEXT_META[text.key] || {translit:text.title, idx:'?'};
       const nRiks = text.sections.reduce((a,s)=>a+s.riks.length,0);
@@ -887,6 +994,7 @@
       const sectionList = document.createElement('div');
       sectionList.className = 'section-list';
 
+      // Level 2: one "section-item" per section within this text
       text.sections.forEach((sec, si) => {
         const secItem = document.createElement('div');
         secItem.className = 'section-item';
@@ -910,6 +1018,7 @@
 
         const rikList = document.createElement('div');
         rikList.className = 'rik-list';
+        // Level 3: one clickable link per individual r̥k (verse) in this section
         sec.riks.forEach((r, ri) => {
           const rikBtn = document.createElement('button');
           rikBtn.className = 'rik-link';
@@ -934,13 +1043,25 @@
     });
   }
 
-  /* ---------------- content render ---------------- */
+  /* ============================================================
+     CONTENT RENDERING
+     Everything in the main pane is built as HTML strings and
+     assigned via innerHTML in one shot per render (renderAll /
+     runGlobalSearch), rather than incrementally with the DOM API.
+     This is simpler here since the content is regenerated wholesale
+     on every search or theme-independent state change.
+     ============================================================ */
   const contentInner = document.getElementById('contentInner');
 
+  // Minimal HTML-escaping for any raw text interpolated into the
+  // template strings below, to avoid XSS/broken markup from the data.
   function escapeHtml(s){
     return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   }
 
+  // Renders the small row of metadata tags (prapāṭhaka, r̥ṣi, chandas,
+  // devatā, etc.) shown above a r̥k's text. `terms`, if given (during a
+  // search), causes matching substrings to be wrapped in <mark>.
   function renderRikMeta(r, terms){
     const hl = (s) => terms ? highlightMatches(s, terms) : escapeHtml(s);
     const tags = [];
@@ -954,6 +1075,11 @@
     return tags.join('');
   }
 
+  // Renders a single r̥k (verse) card: its samhitā text, pada-pāṭha,
+  // notes, and any attached sāma-gāna(s).
+  //   text/ti/si/r/ri  — the verse's location within DATA (text, section, rik indices + the rik object itself)
+  //   searchOpts       — optional { terms, matchedSamaganaIdx } used only when rendering search results,
+  //                       to highlight matched text and mark/dim individual sāma-gānas
   function renderRik(text, ti, si, r, ri, searchOpts){
     const terms = searchOpts && searchOpts.terms;
     const matchedIdx = (searchOpts && searchOpts.matchedSamaganaIdx) || null;
@@ -996,6 +1122,9 @@
     return html;
   }
 
+  // Renders the entire dataset (all texts, sections, and r̥ks) into
+  // the main content pane. This is the "no active search" view, and
+  // is also what's re-rendered when a search is cleared.
   function renderAll(){
     let html = '';
     DATA.forEach((text, ti) => {
@@ -1023,7 +1152,12 @@
     contentInner.innerHTML = html;
   }
 
-  /* ---------------- scroll navigation ---------------- */
+  /* ============================================================
+     SCROLL NAVIGATION
+     Simple wrappers around scrollIntoView, used by the sidebar tree
+     buttons and by search-result clicks to jump the content pane
+     to a given text / section / r̥k.
+     ============================================================ */
   const contentEl = document.getElementById('content');
 
   function scrollToText(ti){
@@ -1034,17 +1168,24 @@
     const el = document.getElementById(`sec-${ti}-${si}`);
     if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
   }
+  // Scrolls to a specific r̥k card and re-triggers its pulse-highlight
+  // animation (removing then re-adding the class forces the CSS
+  // animation to restart even if it's clicked twice in a row).
   function scrollToRik(ti, si, ri){
     const el = document.getElementById(`rik-${ti}-${si}-${ri}`);
     if(el){
       el.scrollIntoView({behavior:'smooth', block:'center'});
       el.classList.remove('match-highlight');
-      void el.offsetWidth;
+      void el.offsetWidth; // force a reflow so the animation restarts
       el.classList.add('match-highlight');
       highlightSidebarRik(ti, si, ri);
     }
   }
 
+  // Synchronizes the sidebar tree's "current" state with a given r̥k:
+  // marks its link as current, opens its ancestor section/text groups,
+  // and auto-collapses sibling groups/sections so the tree doesn't grow
+  // unboundedly as the user navigates around.
   function highlightSidebarRik(ti, si, ri){
     document.querySelectorAll('.rik-link.current').forEach(el => el.classList.remove('current'));
     document.querySelectorAll('.text-toggle.active-text').forEach(el => el.classList.remove('active-text'));
@@ -1055,9 +1196,11 @@
       const secItem = btn.closest('.section-item');
       const group = btn.closest('.text-group');
 
+      // Collapse every other top-level text group...
       document.querySelectorAll('.text-group').forEach(g => {
         if(g !== group) g.classList.remove('open');
       });
+      // ...and every other section within the group we're navigating into.
       if(group){
         group.querySelectorAll('.section-item').forEach(s => {
           if(s !== secItem) s.classList.remove('open');
@@ -1073,7 +1216,14 @@
     }
   }
 
-  /* ---------------- sidebar collapse ---------------- */
+  /* ============================================================
+     SIDEBAR SHOW/HIDE
+     On desktop the sidebar toggle just slides it off-canvas (see
+     .sidebar.collapsed in CSS, which pushes it out via negative
+     margin, shifting the main content over). On mobile the same
+     class instead drives a fixed-position slide-in drawer with a
+     dark scrim overlay behind it.
+     ============================================================ */
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   document.getElementById('toggleSidebar').addEventListener('click', () => {
@@ -1087,9 +1237,10 @@
     sidebar.classList.add('collapsed');
     overlay.classList.remove('show');
   }
+  // Start collapsed on mobile so the reader content is visible immediately.
   if(window.innerWidth <= 720){ sidebar.classList.add('collapsed'); }
 
-  /* ---------------- sidebar expand/collapse all ---------------- */
+  /* ---------------- sidebar expand/collapse all buttons ---------------- */
   document.getElementById('expandAll').addEventListener('click', () => {
     document.querySelectorAll('.text-group').forEach(g => g.classList.add('open'));
     document.querySelectorAll('.section-item').forEach(s => s.classList.add('open'));
@@ -1099,7 +1250,14 @@
     document.querySelectorAll('.section-item').forEach(s => s.classList.remove('open'));
   });
 
-  /* ---------------- sidebar filter ---------------- */
+  /* ============================================================
+     SIDEBAR FILTER
+     A lightweight, client-side substring filter over the *tree
+     labels only* (not verse text — that's what the global search
+     below is for). It just shows/hides existing tree DOM nodes
+     rather than rebuilding them, and auto-expands groups/sections
+     that contain a match so results are visible without extra clicks.
+     ============================================================ */
   const sidebarFilterInput = document.getElementById('sidebarFilter');
   const sidebarFilterClear = document.getElementById('sidebarFilterClear');
   let sidebarEmptyMsg = null;
@@ -1148,20 +1306,44 @@
     sidebarFilterInput.focus();
   });
 
-  /* ---------------- global content search ---------------- */
+  /* ============================================================
+     GLOBAL CONTENT SEARCH
+     A from-scratch, in-memory search over every r̥k and sāma-gāna's
+     text fields. Rather than a full-text/inverted index, this does a
+     simple weighted linear scan (fine at this data scale) with three
+     notable features:
+       1. Multi-term queries — every term must match somewhere in an
+          entry (fields OR any of its sāma-gānas) for it to count.
+       2. Quoted phrases — `"agnim ile"` is treated as one term.
+       3. Diacritic-insensitive fuzzy matching — Sanskrit combining
+          marks (svara/accent marks) are allowed to appear between
+          the characters you typed, so searching without diacritics
+          still matches accented text (see buildFuzzyRegex).
+     ============================================================ */
   const globalSearch = document.getElementById('globalSearch');
   const clearSearch = document.getElementById('clearSearch');
-  let searchIndex = [];
+  let searchIndex = []; // flat list of {ti, si, ri, r, fields, sgFields, ...} built once from DATA
 
+  // Escapes a single character for safe use inside a RegExp.
   function escapeRegexChar(ch){
     return ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
+
+  // Builds a regex that matches `term` even if Unicode combining marks
+  // (e.g. Vedic svara accents, which are separate codepoints) are
+  // interleaved between its characters in the source text. This lets a
+  // plain, unaccented search term still match accented Sanskrit text.
+  // Falls back to a literal (non-Unicode) regex if the environment
+  // doesn't support the `u` flag's \p{M} property escape.
   function buildFuzzyRegex(term){
     const chars = Array.from(term);
     const pattern = chars.map(escapeRegexChar).join('\\p{M}*');
     try{ return new RegExp(pattern, 'giu'); }
     catch(e){ return new RegExp(chars.map(escapeRegexChar).join(''), 'gi'); }
   }
+
+  // Splits a raw search query into individual terms, honoring
+  // "double-quoted phrases" as a single term.
   function splitTerms(q){
     const terms = [];
     const re = /"([^"]+)"|(\S+)/g;
@@ -1173,11 +1355,17 @@
     return terms;
   }
 
+  // Relative importance of each field when a term matches it — used
+  // to rank results (e.g. matching a rishi/devatā name ranks higher
+  // than matching a word buried in the pada-pāṭha).
   const FIELD_WEIGHT = {
     number: 200, rishi: 80, devata: 80, chandas: 70, ref: 60,
     samhita: 50, notes: 40, pada: 35, sg_text: 25, sg_notes: 20
   };
 
+  // Flattens DATA into `searchIndex`: one entry per r̥k, with its
+  // searchable fields pre-extracted (and the same for each of its
+  // sāma-gānas), so scoring doesn't need to re-derive them per query.
   function buildSearchIndex(){
     searchIndex = [];
     DATA.forEach((text, ti) => {
@@ -1205,18 +1393,28 @@
     });
   }
 
+  // Scores a single searchIndex entry (one r̥k + its sāma-gānas)
+  // against the query's terms. ALL terms must match somewhere
+  // (in the r̥k's own fields, or in any one of its sāma-gānas) or the
+  // entry is rejected (returns null) — this is an AND across terms.
+  // Returns { score, matchedSamaganaIdx } where matchedSamaganaIdx is
+  // the set of sāma-gāna indices that directly matched at least one
+  // term, used later to highlight/dim individual sāma-gāna cards.
   function scoreEntry(entry, terms){
     let total = 0;
     const matchedSamaganaIdx = new Set();
     for(const term of terms){
       const re = buildFuzzyRegex(term);
-      let bestWeight = 0;
+      let bestWeight = 0; // highest-weighted field this term matched in, for this entry
+      // Check the r̥k's own fields (samhita text, pada, rishi, etc.)
       for(const key of Object.keys(entry.fields)){
-        re.lastIndex = 0;
+        re.lastIndex = 0; // reset regex state between .test() calls (global flag keeps lastIndex)
         if(entry.fields[key] && re.test(entry.fields[key])){
           bestWeight = Math.max(bestWeight, FIELD_WEIGHT[key] || 10);
         }
       }
+      // Also check each attached sāma-gāna's fields, tracking which
+      // ones matched so they can be visually flagged later.
       entry.sgFields.forEach((sgf, idx) => {
         for(const key of ['number','rishi','chandas','devata','sg_text','sg_notes']){
           re.lastIndex = 0;
@@ -1231,12 +1429,17 @@
           }
         }
       });
+      // This term matched nothing anywhere in the entry — the whole
+      // entry fails the AND condition, so bail out immediately.
       if(bestWeight === 0) return null;
       total += bestWeight;
     }
     return {score: total, matchedSamaganaIdx};
   }
 
+  // Wraps every substring of `str` that matches any of `terms` in
+  // <mark> tags (merging overlapping/adjacent matches so nested
+  // <mark>s never occur), for rendering search-result highlights.
   function highlightMatches(str, terms){
     if(!str || !terms.length) return escapeHtml(str);
     const ranges = [];
@@ -1250,6 +1453,8 @@
       }
     });
     if(!ranges.length) return escapeHtml(str);
+    // Sort by start position, then merge any overlapping/touching
+    // ranges so overlapping term matches don't produce nested <mark>s.
     ranges.sort((a,b)=>a[0]-b[0]);
     const merged = [ranges[0]];
     for(let i=1;i<ranges.length;i++){
@@ -1267,6 +1472,9 @@
     return out;
   }
 
+  // Runs a query against searchIndex and re-renders the content pane
+  // with matching r̥ks (grouped by section, highest score first),
+  // or restores the full, unfiltered view when the query is empty.
   function runGlobalSearch(qRaw){
     const q = qRaw.trim();
     clearSearch.classList.toggle('show', !!q);
@@ -1278,11 +1486,13 @@
     const terms = splitTerms(q);
     if(!terms.length){ renderAll(); return; }
 
+    // Score every indexed r̥k; keep only those where every term matched.
     const scored = [];
     for(const entry of searchIndex){
       const res = scoreEntry(entry, terms);
       if(res) scored.push({entry, ...res});
     }
+    // Best matches first; ties broken by canonical document order.
     scored.sort((a,b) => b.score - a.score || a.entry.ti-b.entry.ti || a.entry.si-b.entry.si || a.entry.ri-b.entry.ri);
 
     const totalSamaganaMatches = scored.reduce((a,s)=>a + (s.matchedSamaganaIdx.size || 0), 0);
@@ -1296,7 +1506,9 @@
         <p>No verses match your search. Try fewer or different terms — accents/svara marks are ignored automatically.</p>
       </div>`;
     } else {
-      let lastKey = '';
+      let lastKey = ''; // tracks the last (text,section) pair rendered, to insert a heading whenever it changes
+      // Cap at 400 results — plenty for any realistic query, and keeps
+      // the DOM/render cost bounded for very broad terms.
       scored.slice(0, 400).forEach(({entry, matchedSamaganaIdx}) => {
         const meta = TEXT_META[DATA[entry.ti].key] || {translit:entry.textTitle};
         const key = entry.ti+'-'+entry.si;
@@ -1312,6 +1524,8 @@
     document.getElementById('crumb').innerHTML = `Search: "<b>${escapeHtml(q)}</b>" · ${scored.length} result${scored.length===1?'':'s'}`;
   }
 
+  // Debounce keystrokes (160ms) so search doesn't re-score+re-render
+  // on every single character while the user is still typing.
   let searchTimer;
   globalSearch.addEventListener('input', (e) => {
     clearTimeout(searchTimer);
@@ -1324,7 +1538,12 @@
     globalSearch.focus();
   });
 
-  /* ---------------- zoom ---------------- */
+  /* ============================================================
+     TEXT ZOOM
+     A simple multiplier (0.6x–2x) applied via the `--zoom` CSS
+     custom property, which every Sanskrit-text font-size in the
+     stylesheet is expressed as `calc(Npx * var(--zoom, 1))`.
+     ============================================================ */
   function applyZoom(){
     document.documentElement.style.setProperty('--zoom', zoom.toFixed(2));
     document.getElementById('zoomVal').textContent = Math.round(zoom*100) + '%';
@@ -1332,13 +1551,26 @@
   document.getElementById('zoomIn').addEventListener('click', () => { zoom = Math.min(2, zoom + 0.1); applyZoom(); });
   document.getElementById('zoomOut').addEventListener('click', () => { zoom = Math.max(0.6, zoom - 0.1); applyZoom(); });
 
-  /* ---------------- scroll spy for crumb + jump-to-top ---------------- */
+  /* ============================================================
+     SCROLL SPY
+     As the user scrolls the content pane, figure out which r̥k is
+     currently at the top of the viewport and:
+       1. update the breadcrumb in the topbar, and
+       2. sync the sidebar tree's open/current state to match —
+          so the sidebar always reflects "where you are" even when
+          navigation happens purely by scrolling (not clicking).
+     Skipped entirely while a search is active, since search results
+     aren't in canonical document order.
+     ============================================================ */
   const jumpTop = document.getElementById('jumpTop');
   contentEl.addEventListener('scroll', () => {
     jumpTop.classList.toggle('show', contentEl.scrollTop > 500);
-    if(globalSearch.value.trim()) return;
+    if(globalSearch.value.trim()) return; // scroll-spy only applies to the unfiltered view
     const cards = contentInner.querySelectorAll('.rik-card');
     let currentTextIdx = 0, currentSecIdx = 0, currentRikIdx = 0, found=false;
+    // Walk cards top-to-bottom; the last one whose top has scrolled
+    // past the topbar (140px) is the "current" one. Cards are in
+    // document order, so we can stop at the first one still below it.
     for(const card of cards){
       const rect = card.getBoundingClientRect();
       if(rect.top <= 140){
@@ -1358,13 +1590,23 @@
   });
   jumpTop.addEventListener('click', () => contentEl.scrollTo({top:0, behavior:'smooth'}));
 
-  /* ---------------- init ---------------- */
+  /* ============================================================
+     INIT
+     Entry point: fetches the dataset, then builds the sidebar tree,
+     search index, and initial content render from it. Everything
+     above this point only defines functions/listeners — nothing
+     runs against real data until this resolves.
+     ============================================================ */
   async function init(){
     try{
+      // Data lives alongside this file at data/samaveda.json, fetched
+      // fresh (no-cache) so edits to the JSON are picked up on reload.
       const res = await fetch('/data/samaveda.json', {cache:'no-cache'});
       if(!res.ok) throw new Error('HTTP ' + res.status);
       DATA = await res.json();
     }catch(err){
+      // Most common cause: opened via file:// (fetch is blocked) or the
+      // JSON simply isn't deployed alongside this HTML — show guidance.
       contentInner.innerHTML = `<div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <p><b>Could not load data.json.</b><br>${escapeHtml(err.message)}<br><br>
@@ -1374,13 +1616,14 @@
       </div>`;
       return;
     }
+    // Precompute global totals once, used throughout for "№N of TOTAL" badges.
     TOTAL_RIKS = DATA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.length,0),0);
     TOTAL_SAMANS = DATA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.reduce((c,r)=>c+r.samaganas.length,0),0),0);
-    buildTree();
-    buildSearchIndex();
-    renderAll();
-    applyZoom();
-    document.querySelectorAll('.text-group')[0]?.classList.add('open');
+    buildTree();         // sidebar navigation
+    buildSearchIndex();  // flat index for global search
+    renderAll();         // main content pane
+    applyZoom();         // sync the zoom % label / --zoom var with initial `zoom` value
+    document.querySelectorAll('.text-group')[0]?.classList.add('open'); // open the first text by default
     document.getElementById('sidebarFoot').innerHTML =
       `<span><b>${DATA.length}</b> texts</span><span><b>${TOTAL_RIKS}</b> r̥ks</span><span><b>${TOTAL_SAMANS}</b> sāma-gānas</span>`;
   }
