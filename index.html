@@ -828,10 +828,6 @@
         <span class="count">${nRiks}</span>`;
       toggle.addEventListener('click', () => {
         const wasOpen = group.classList.contains('open');
-        // collapse every other text-group so only one stays expanded at a time
-        document.querySelectorAll('.text-group').forEach(g => {
-          if(g !== group) g.classList.remove('open');
-        });
         group.classList.toggle('open');
         if(!wasOpen){ scrollToText(ti); }
       });
@@ -856,10 +852,6 @@
         secToggle.addEventListener('click', (e) => {
           e.stopPropagation();
           const wasOpen = secItem.classList.contains('open');
-          // collapse sibling sections within the same text so only one stays expanded
-          sectionList.querySelectorAll('.section-item').forEach(s => {
-            if(s !== secItem) s.classList.remove('open');
-          });
           secItem.classList.toggle('open');
           if(!wasOpen){ scrollToSection(ti, si); }
         });
