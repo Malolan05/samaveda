@@ -1,694 +1,680 @@
 <!DOCTYPE html>
 <html lang="sa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sāmaveda </title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg: #12100d;
-  --bg-soft: #191510;
-  --panel: #1d1811;
-  --panel-2: #241d14;
-  --line: #352c1e;
-  --line-soft: #2a2318;
-  --ember: #c8783f;
-  --ember-soft: #8f5430;
-  --gold: #cfa15c;
-  --ash: #a89a82;
-  --ash-dim: #756a58;
-  --paper: #f3ead8;
-  --paper-dim: #d9cba9;
-  --ok: #7a9b6e;
-  --radius: 3px;
-  --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --serif: 'Fraunces', Georgia, serif;
-  /* Wide fallback chain so Vedic-accented Devanagari still renders (in some font)
-     even when the webfont hasn't loaded / no internet / font not installed. */
-  --deva: 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Siddhanta', 'Sanskrit 2003',
-          'Kohinoor Devanagari', 'Nirmala UI', 'Mangal', 'Kokila', 'Utsaah', 'Aparajita',
-          'Lohit Devanagari', 'Arial Unicode MS', 'Segoe UI Historic', sans-serif, serif;
-  --deva-sans: 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Nirmala UI', 'Mangal',
-          'Kohinoor Devanagari', 'Kokila', 'Utsaah', 'Aparajita', 'Lohit Devanagari',
-          'Arial Unicode MS', sans-serif;
-}
-html[data-theme="light"]{
-  --bg: #f6f1e6;
-  --bg-soft: #efe7d5;
-  --panel: #fbf7ec;
-  --panel-2: #f1e9d8;
-  --line: #ded0af;
-  --line-soft: #e6dabd;
-  --ember: #b35d2c;
-  --ember-soft: #c98653;
-  --gold: #9c6c2e;
-  --ash: #6b5f4a;
-  --ash-dim: #948566;
-  --paper: #2a2013;
-  --paper-dim: #40331f;
-  --ok: #4f7a45;
-}
-html[data-theme="light"] body::before{
-  background-image:
-    radial-gradient(circle at 15% 8%, rgba(179,93,44,.05), transparent 40%),
-    radial-gradient(circle at 85% 90%, rgba(156,108,46,.05), transparent 45%);
-}
-html[data-theme="light"] .rik-no-badge{ color:#fbf7ec; }
-html[data-theme="light"] mark{ color:#fbf7ec; }
-html{ transition: background-color .2s; }
-body{ transition: color .2s; }
-.sidebar, .topbar, .panel, .samagana-item{ transition: background-color .2s, border-color .2s; }
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;height:100%;}
-body{
-  background: var(--bg);
-  color: var(--paper-dim);
-  font-family: var(--sans);
-  overflow:hidden;
-  overscroll-behavior:none;
-}
-img,svg{ max-width:100%; }
-.content, .sidebar-tree{ -webkit-overflow-scrolling: touch; }
-body::before{
-  content:"";
-  position:fixed; inset:0;
-  background-image:
-    radial-gradient(circle at 15% 8%, rgba(200,120,63,.05), transparent 40%),
-    radial-gradient(circle at 85% 90%, rgba(207,161,92,.04), transparent 45%);
-  pointer-events:none;
-  z-index:0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sāmaveda · light only</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* --- LIGHT THEME ONLY --- */
+    :root {
+      --bg: #f6f1e6;
+      --bg-soft: #efe7d5;
+      --panel: #fbf7ec;
+      --panel-2: #f1e9d8;
+      --line: #ded0af;
+      --line-soft: #e6dabd;
+      --ember: #b35d2c;
+      --ember-soft: #c98653;
+      --gold: #9c6c2e;
+      --ash: #6b5f4a;
+      --ash-dim: #948566;
+      --paper: #2a2013;
+      --paper-dim: #40331f;
+      --ok: #4f7a45;
+      --radius: 3px;
+      --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --serif: 'Fraunces', Georgia, serif;
+      --deva: 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Siddhanta', 'Sanskrit 2003',
+              'Kohinoor Devanagari', 'Nirmala UI', 'Mangal', 'Kokila', 'Utsaah', 'Aparajita',
+              'Lohit Devanagari', 'Arial Unicode MS', 'Segoe UI Historic', sans-serif, serif;
+      --deva-sans: 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Nirmala UI', 'Mangal',
+              'Kohinoor Devanagari', 'Kokila', 'Utsaah', 'Aparajita', 'Lohit Devanagari',
+              'Arial Unicode MS', sans-serif;
+    }
 
-/* ---------- layout ---------- */
-.app{
-  display:flex;
-  height:100vh;
-  position:relative;
-  z-index:1;
-}
+    /* light-only background glow */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 8%, rgba(179,93,44,.05), transparent 40%),
+        radial-gradient(circle at 85% 90%, rgba(156,108,46,.05), transparent 45%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .rik-no-badge { color: #fbf7ec; }
+    mark { color: #fbf7ec; }
 
-/* ---------- sidebar ---------- */
-.sidebar{
-  width:300px;
-  min-width:300px;
-  background: var(--panel);
-  border-right:1px solid var(--line);
-  display:flex;
-  flex-direction:column;
-  transition: margin-left .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1);
-  position:relative;
-}
-.sidebar.collapsed{
-  margin-left:-300px;
-}
-.sidebar-head{
-  padding:22px 20px 16px;
-  border-bottom:1px solid var(--line);
-}
-.brand{
-  display:flex;
-  align-items:baseline;
-  gap:10px;
-}
-.brand-mark{
-  font-family:var(--deva);
-  font-size:26px;
-  color:var(--ember);
-  line-height:1;
-}
-.brand-text h1{
-  margin:0;
-  font-family:var(--serif);
-  font-weight:600;
-  font-size:16.5px;
-  letter-spacing:.2px;
-  color:var(--paper);
-}
-.brand-text p{
-  margin:2px 0 0;
-  font-size:11px;
-  color:var(--ash-dim);
-}
-.sidebar-search{
-  margin-top:14px;
-  position:relative;
-}
-.sidebar-search input{
-  width:100%;
-  background: var(--bg-soft);
-  border:1px solid var(--line);
-  color:var(--paper-dim);
-  font-family:var(--sans);
-  font-size:13px;
-  padding:8px 10px 8px 30px;
-  border-radius:var(--radius);
-  outline:none;
-  transition:border-color .15s;
-}
-.sidebar-search input:focus{ border-color: var(--ember-soft); }
-.sidebar-search input::placeholder{ color:var(--ash-dim); }
-.sidebar-search svg{
-  position:absolute; left:9px; top:50%; transform:translateY(-50%);
-  width:14px; height:14px; stroke:var(--ash-dim);
-}
-.sidebar-tree{
-  flex:1;
-  overflow-y:auto;
-  padding:6px 8px 20px;
-}
-.sidebar-tree::-webkit-scrollbar{ width:8px; }
-.sidebar-tree::-webkit-scrollbar-thumb{ background:var(--line); border-radius:4px; }
-.sidebar-tree::-webkit-scrollbar-track{ background:transparent; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+    img, svg { max-width: 100%; }
+    .content, .sidebar-tree { -webkit-overflow-scrolling: touch; }
 
-.text-group{ margin-bottom:2px; }
-.text-toggle{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  width:100%;
-  background:none;
-  border:none;
-  color:var(--paper);
-  font-family:var(--sans);
-  font-size:13px;
-  font-weight:500;
-  padding:9px 8px;
-  cursor:pointer;
-  border-radius:var(--radius);
-  text-align:left;
-}
-.text-toggle:hover{ background: var(--panel-2); }
-.text-toggle .chev{
-  width:9px; height:9px;
-  flex-shrink:0;
-  transition: transform .18s;
-  color: var(--ash-dim);
-}
-.text-toggle .idx{
-  font-family:var(--deva);
-  font-size:15px;
-  color:var(--ember);
-  width:18px;
-  text-align:center;
-  flex-shrink:0;
-}
-.text-toggle.active-text{ color:var(--ember); }
-.text-toggle.active-text .idx{ color: var(--gold); }
-.text-toggle span.label{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.text-toggle .count{
-  font-size:10px;
-  color:var(--ash-dim);
-  font-variant-numeric: tabular-nums;
-}
-.text-group.open > .text-toggle .chev{ transform:rotate(90deg); }
+    /* ---------- layout ---------- */
+    .app {
+      display: flex;
+      height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
 
-.section-list{
-  max-height:0;
-  overflow:hidden;
-  padding-left:14px;
-  border-left:1px solid var(--line-soft);
-  margin-left:16px;
-}
-.text-group.open > .section-list{ max-height:none; }
+    /* ---------- sidebar ---------- */
+    .sidebar {
+      width: 300px;
+      min-width: 300px;
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      transition: margin-left .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1);
+      position: relative;
+    }
+    .sidebar.collapsed { margin-left: -300px; }
+    .sidebar-head {
+      padding: 22px 20px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .brand-mark {
+      font-family: var(--deva);
+      font-size: 26px;
+      color: var(--ember);
+      line-height: 1;
+    }
+    .brand-text h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 16.5px;
+      letter-spacing: .2px;
+      color: var(--paper);
+    }
+    .brand-text p {
+      margin: 2px 0 0;
+      font-size: 11px;
+      color: var(--ash-dim);
+    }
+    .sidebar-search {
+      margin-top: 14px;
+      position: relative;
+    }
+    .sidebar-search input {
+      width: 100%;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: 13px;
+      padding: 8px 10px 8px 30px;
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color .15s;
+    }
+    .sidebar-search input:focus { border-color: var(--ember-soft); }
+    .sidebar-search input::placeholder { color: var(--ash-dim); }
+    .sidebar-search svg {
+      position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; stroke: var(--ash-dim);
+    }
+    .sidebar-tree {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 8px 20px;
+    }
+    .sidebar-tree::-webkit-scrollbar { width: 8px; }
+    .sidebar-tree::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+    .sidebar-tree::-webkit-scrollbar-track { background: transparent; }
 
-.section-item{ }
-.section-toggle{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  width:100%;
-  background:none;
-  border:none;
-  color:var(--ash);
-  font-family:var(--sans);
-  font-size:12px;
-  padding:7px 8px;
-  cursor:pointer;
-  border-radius:var(--radius);
-  text-align:left;
-}
-.section-toggle:hover{ background:var(--panel-2); color:var(--paper-dim); }
-.section-toggle .chev{ width:7px; height:7px; color:var(--ash-dim); transition:transform .15s; flex-shrink:0;}
-.section-item.open > .section-toggle .chev{ transform:rotate(90deg); }
-.section-toggle span.label{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-.section-toggle .count{ font-size:10px; color:var(--ash-dim); }
+    .text-group { margin-bottom: 2px; }
+    .text-toggle {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 8px;
+      cursor: pointer;
+      border-radius: var(--radius);
+      text-align: left;
+    }
+    .text-toggle:hover { background: var(--panel-2); }
+    .text-toggle .chev {
+      width: 9px; height: 9px;
+      flex-shrink: 0;
+      transition: transform .18s;
+      color: var(--ash-dim);
+    }
+    .text-toggle .idx {
+      font-family: var(--deva);
+      font-size: 15px;
+      color: var(--ember);
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .text-toggle.active-text { color: var(--ember); }
+    .text-toggle.active-text .idx { color: var(--gold); }
+    .text-toggle span.label { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .text-toggle .count {
+      font-size: 10px;
+      color: var(--ash-dim);
+      font-variant-numeric: tabular-nums;
+    }
+    .text-group.open > .text-toggle .chev { transform: rotate(90deg); }
 
-.rik-list{
-  max-height:0;
-  overflow:hidden;
-  padding-left:12px;
-  margin-left:10px;
-  border-left:1px solid var(--line-soft);
-}
-.section-item.open > .rik-list{ max-height:none; }
-.rik-link{
-  display:block;
-  width:100%;
-  background:none;
-  border:none;
-  text-align:left;
-  color:var(--ash-dim);
-  font-size:11.5px;
-  padding:5px 8px;
-  cursor:pointer;
-  border-radius:var(--radius);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.rik-link:hover{ background:var(--panel-2); color:var(--paper-dim); }
-.rik-link.current{ background: rgba(200,120,63,.12); color:var(--ember); }
+    .section-list {
+      max-height: 0;
+      overflow: hidden;
+      padding-left: 14px;
+      border-left: 1px solid var(--line-soft);
+      margin-left: 16px;
+    }
+    .text-group.open > .section-list { max-height: none; }
 
-/* ---------- main ---------- */
-.main{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
-  height:100vh;
-}
-.topbar{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:12px 22px;
-  border-bottom:1px solid var(--line);
-  background: var(--bg-soft);
-  flex-shrink:0;
-}
-.icon-btn{
-  background:none;
-  border:1px solid var(--line);
-  color:var(--ash);
-  width:32px; height:32px;
-  border-radius:var(--radius);
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
-  flex-shrink:0;
-  transition: border-color .15s, color .15s;
-}
-.icon-btn:hover{ border-color:var(--ember-soft); color:var(--ember); }
-.icon-btn svg{ width:16px; height:16px; }
+    .section-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--ash);
+      font-family: var(--sans);
+      font-size: 12px;
+      padding: 7px 8px;
+      cursor: pointer;
+      border-radius: var(--radius);
+      text-align: left;
+    }
+    .section-toggle:hover { background: var(--panel-2); color: var(--paper-dim); }
+    .section-toggle .chev { width:7px; height:7px; color:var(--ash-dim); transition:transform .15s; flex-shrink:0; }
+    .section-item.open > .section-toggle .chev { transform: rotate(90deg); }
+    .section-toggle span.label { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .section-toggle .count { font-size:10px; color:var(--ash-dim); }
 
-.global-search{
-  flex:1;
-  max-width:480px;
-  position:relative;
-}
-.global-search input{
-  width:100%;
-  background:var(--panel);
-  border:1px solid var(--line);
-  color:var(--paper-dim);
-  font-size:13.5px;
-  padding:9px 34px 9px 34px;
-  border-radius:var(--radius);
-  outline:none;
-}
-.global-search input:focus{ border-color:var(--ember-soft); }
-.global-search svg.icn{
-  position:absolute; left:11px; top:50%; transform:translateY(-50%);
-  width:15px; height:15px; stroke:var(--ash-dim);
-}
-.global-search .clear-btn{
-  position:absolute; right:8px; top:50%; transform:translateY(-50%);
-  background:none; border:none; color:var(--ash-dim);
-  cursor:pointer; display:none; padding:2px;
-}
-.global-search .clear-btn.show{ display:block; }
+    .rik-list {
+      max-height: 0;
+      overflow: hidden;
+      padding-left: 12px;
+      margin-left: 10px;
+      border-left: 1px solid var(--line-soft);
+    }
+    .section-item.open > .rik-list { max-height: none; }
+    .rik-link {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      color: var(--ash-dim);
+      font-size: 11.5px;
+      padding: 5px 8px;
+      cursor: pointer;
+      border-radius: var(--radius);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rik-link:hover { background: var(--panel-2); color: var(--paper-dim); }
+    .rik-link.current { background: rgba(179,93,44,.12); color: var(--ember); }
 
-.zoom-group{
-  display:flex;
-  align-items:center;
-  gap:2px;
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:2px;
-  flex-shrink:0;
-}
-.zoom-group button{
-  background:none; border:none; color:var(--ash);
-  width:28px; height:26px;
-  cursor:pointer;
-  border-radius:2px;
-  font-size:15px;
-  display:flex; align-items:center; justify-content:center;
-}
-.zoom-group button:hover{ background:var(--panel-2); color:var(--ember); }
-.zoom-group .zoom-val{
-  font-size:10.5px;
-  color:var(--ash-dim);
-  width:34px;
-  text-align:center;
-  font-variant-numeric:tabular-nums;
-}
+    /* ---------- main ---------- */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      height: 100vh;
+    }
 
-.crumb{
-  font-size:11.5px;
-  color:var(--ash-dim);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  display:none;
-}
-@media (min-width:920px){ .crumb{ display:block; } }
-.crumb b{ color:var(--gold); font-weight:500; }
+    /* TOPBAR – fully centered */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;   /* center everything */
+      gap: 14px;
+      padding: 12px 22px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-soft);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
 
-.content{
-  flex:1;
-  overflow-y:auto;
-  padding:34px 0 80px;
-  scroll-behavior:smooth;
-}
-.content::-webkit-scrollbar{ width:10px; }
-.content::-webkit-scrollbar-thumb{ background:var(--line); border-radius:5px; }
-.content::-webkit-scrollbar-track{ background:transparent; }
+    .icon-btn {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--ash);
+      width: 32px; height: 32px;
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color .15s, color .15s;
+    }
+    .icon-btn:hover { border-color: var(--ember-soft); color: var(--ember); }
+    .icon-btn svg { width: 16px; height: 16px; }
 
-.content-inner{
-  max-width:880px;
-  margin:0 auto;
-  padding:0 34px;
-}
+    .global-search {
+      flex: 1 1 280px;          /* flexible, but not too wide */
+      max-width: 480px;
+      position: relative;
+    }
+    .global-search input {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--paper-dim);
+      font-size: 13.5px;
+      padding: 9px 34px 9px 34px;
+      border-radius: var(--radius);
+      outline: none;
+    }
+    .global-search input:focus { border-color: var(--ember-soft); }
+    .global-search svg.icn {
+      position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+      width: 15px; height: 15px; stroke: var(--ash-dim);
+    }
+    .global-search .clear-btn {
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--ash-dim);
+      cursor: pointer; display: none; padding: 2px;
+    }
+    .global-search .clear-btn.show { display: block; }
 
-.text-heading{
-  margin: 6px 0 6px;
-  padding-bottom:20px;
-  border-bottom:1px solid var(--line);
-}
-.text-heading .lbl{
-  font-size:11px;
-  letter-spacing:.06em;
-  color:var(--ember-soft);
-  margin-bottom:6px;
-}
-.text-heading h2{
-  font-family:var(--deva);
-  font-size:34px;
-  font-weight:600;
-  color:var(--paper);
-  margin:0 0 4px;
-}
-.text-heading .translit{
-  font-family:var(--serif);
-  font-style:italic;
-  font-size:15px;
-  color:var(--gold);
-  margin:0 0 10px;
-}
-.text-heading .desc{
-  font-size:13px;
-  line-height:1.6;
-  color:var(--ash);
-  max-width:640px;
-  margin:0 0 12px;
-}
-.text-heading .stats{
-  display:flex; gap:18px;
-  font-size:11px;
-  color:var(--ash-dim);
-}
-.text-heading .stats b{ color:var(--gold); font-weight:600; }
+    .zoom-group {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .zoom-group button {
+      background: none; border: none; color: var(--ash);
+      width: 28px; height: 26px;
+      cursor: pointer;
+      border-radius: 2px;
+      font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .zoom-group button:hover { background: var(--panel-2); color: var(--ember); }
+    .zoom-group .zoom-val {
+      font-size: 10.5px;
+      color: var(--ash-dim);
+      width: 34px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
 
-.section-heading{
-  margin:44px 0 18px;
-  display:flex;
-  align-items:baseline;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.section-heading h3{
-  font-family:var(--serif);
-  font-weight:500;
-  font-style:italic;
-  font-size:18px;
-  color:var(--gold);
-  margin:0;
-  white-space:nowrap;
-}
-.section-heading .sub{
-  font-family:var(--sans);
-  font-size:11px;
-  color:var(--ash-dim);
-  white-space:nowrap;
-}
-.section-heading .rule{
-  flex:1;
-  min-width:24px;
-  height:1px;
-  background: linear-gradient(to right, var(--line), transparent);
-}
+    .crumb {
+      font-size: 11.5px;
+      color: var(--ash-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: none;
+    }
+    @media (min-width: 920px) { .crumb { display: block; } }
+    .crumb b { color: var(--gold); font-weight: 500; }
 
-.rik-card{
-  scroll-margin-top:20px;
-  padding:22px 0;
-  border-bottom:1px solid var(--line-soft);
-}
-.rik-card:last-child{ border-bottom:none; }
-.rik-card.match-highlight{
-  animation: pulseHi 1.6s ease;
-}
-@keyframes pulseHi{
-  0%{ background:rgba(200,120,63,.14); }
-  100%{ background:transparent; }
-}
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 34px 0 80px;
+      scroll-behavior: smooth;
+    }
+    .content::-webkit-scrollbar { width: 10px; }
+    .content::-webkit-scrollbar-thumb { background: var(--line); border-radius: 5px; }
+    .content::-webkit-scrollbar-track { background: transparent; }
 
-.rik-meta{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:8px 14px;
-  margin-bottom:10px;
-}
-.rik-tag{
-  font-size:10.5px;
-  color:var(--ash-dim);
-  display:flex; align-items:center; gap:5px;
-}
-.rik-tag b{ color:var(--ash); font-weight:500; }
-.rik-no-badge{
-  font-family:var(--deva);
-  font-size:12px;
-  color:var(--bg);
-  background:var(--ember);
-  padding:2px 9px;
-  border-radius:2px;
-  font-weight:600;
-}
-.global-badge{
-  font-family:'Inter', monospace;
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:.02em;
-  color:var(--gold);
-  background:transparent;
-  border:1px solid var(--line);
-  padding:2px 7px;
-  border-radius:2px;
-  white-space:nowrap;
-}
-.global-badge.sg-global{
-  color:var(--ember);
-  border-color:var(--ember-soft);
-  font-size:9.5px;
-  padding:1px 6px;
-}
+    .content-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 34px;
+    }
 
-.samhita-block{
-  font-family:var(--deva);
-  font-size: calc(19px * var(--zoom, 1));
-  line-height:2;
-  color:var(--paper);
-  margin-bottom:8px;
-  overflow-wrap:break-word;
-  word-break:break-word;
-}
-.pada-block{
-  font-family:var(--deva-sans);
-  font-size: calc(13.5px * var(--zoom, 1));
-  line-height:1.9;
-  color:var(--ash);
-  margin-bottom:16px;
-  padding-left:14px;
-  border-left:2px solid var(--line);
-  overflow-wrap:break-word;
-  word-break:break-word;
-}
-.rik-notes{
-  font-size:11.5px;
-  color:var(--ash-dim);
-  font-style:italic;
-  margin: 6px 0 16px;
-}
+    .text-heading {
+      margin: 6px 0 6px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .text-heading .lbl {
+      font-size: 11px;
+      letter-spacing: .06em;
+      color: var(--ember-soft);
+      margin-bottom: 6px;
+    }
+    .text-heading h2 {
+      font-family: var(--deva);
+      font-size: 34px;
+      font-weight: 600;
+      color: var(--paper);
+      margin: 0 0 4px;
+    }
+    .text-heading .translit {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--gold);
+      margin: 0 0 10px;
+    }
+    .text-heading .desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ash);
+      max-width: 640px;
+      margin: 0 0 12px;
+    }
+    .text-heading .stats {
+      display: flex; gap: 18px;
+      font-size: 11px;
+      color: var(--ash-dim);
+    }
+    .text-heading .stats b { color: var(--gold); font-weight: 600; }
 
-.samagana-list{
-  margin-top:14px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-.samagana-item{
-  background: var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:14px 18px;
-  transition: opacity .15s, border-color .15s;
-}
-.samagana-item.sg-match{
-  border-color: var(--ember-soft);
-  box-shadow: 0 0 0 1px rgba(200,120,63,.15) inset;
-}
-.samagana-item.sg-dim{ opacity:.45; }
-.samagana-item-head{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px 10px;
-  margin-bottom:8px;
-}
-.samagana-item-head .sg-no{
-  font-family:var(--deva);
-  font-size:12px;
-  color:var(--ember);
-  border:1px solid var(--ember-soft);
-  border-radius:50%;
-  width:20px; height:20px;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
-}
-.samagana-item-head .sg-meta{
-  font-size:10.5px;
-  color:var(--ash-dim);
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  flex:1;
-  min-width:60px;
-}
-.samagana-text{
-  font-family:var(--deva);
-  font-size: calc(17px * var(--zoom, 1));
-  line-height:2.1;
-  color:var(--paper-dim);
-  word-break:break-word;
-}
-.samagana-notes{
-  margin-top:8px;
-  font-size:11px;
-  color:var(--ash-dim);
-  font-style:italic;
-}
+    .section-heading {
+      margin: 44px 0 18px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .section-heading h3 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--gold);
+      margin: 0;
+      white-space: nowrap;
+    }
+    .section-heading .sub {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--ash-dim);
+      white-space: nowrap;
+    }
+    .section-heading .rule {
+      flex: 1;
+      min-width: 24px;
+      height: 1px;
+      background: linear-gradient(to right, var(--line), transparent);
+    }
 
-mark{
-  background: var(--ember);
-  color: var(--bg);
-  padding:0 1px;
-  border-radius:1px;
-}
+    .rik-card {
+      scroll-margin-top: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .rik-card:last-child { border-bottom: none; }
+    .rik-card.match-highlight {
+      animation: pulseHi 1.6s ease;
+    }
+    @keyframes pulseHi {
+      0% { background: rgba(179,93,44,.14); }
+      100% { background: transparent; }
+    }
 
-.empty-state{
-  text-align:center;
-  padding:100px 20px;
-  color:var(--ash-dim);
-}
-.empty-state svg{ width:38px; height:38px; margin-bottom:14px; opacity:.5; }
-.empty-state p{ font-size:13px; }
+    .rik-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      margin-bottom: 10px;
+    }
+    .rik-tag {
+      font-size: 10.5px;
+      color: var(--ash-dim);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .rik-tag b { color: var(--ash); font-weight: 500; }
+    .rik-no-badge {
+      font-family: var(--deva);
+      font-size: 12px;
+      color: var(--bg);
+      background: var(--ember);
+      padding: 2px 9px;
+      border-radius: 2px;
+      font-weight: 600;
+    }
+    .global-badge {
+      font-family: 'Inter', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--gold);
+      background: transparent;
+      border: 1px solid var(--line);
+      padding: 2px 7px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .global-badge.sg-global {
+      color: var(--ember);
+      border-color: var(--ember-soft);
+      font-size: 9.5px;
+      padding: 1px 6px;
+    }
 
-.search-results-note{
-  font-size:12px;
-  color:var(--ash-dim);
-  margin: 0 0 20px;
-}
-.search-results-note b{ color:var(--gold); }
+    .samhita-block {
+      font-family: var(--deva);
+      font-size: calc(19px * var(--zoom, 1));
+      line-height: 2;
+      color: var(--paper);
+      margin-bottom: 8px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .pada-block {
+      font-family: var(--deva-sans);
+      font-size: calc(13.5px * var(--zoom, 1));
+      line-height: 1.9;
+      color: var(--ash);
+      margin-bottom: 16px;
+      padding-left: 14px;
+      border-left: 2px solid var(--line);
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .rik-notes {
+      font-size: 11.5px;
+      color: var(--ash-dim);
+      font-style: italic;
+      margin: 6px 0 16px;
+    }
 
-.jump-top{
-  position:fixed;
-  bottom:26px; right:30px;
-  width:38px; height:38px;
-  border-radius:50%;
-  background:var(--panel);
-  border:1px solid var(--line);
-  color:var(--ash);
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .2s, border-color .15s;
-  z-index:5;
-}
-.jump-top.show{ opacity:1; pointer-events:auto; }
-.jump-top:hover{ border-color:var(--ember-soft); color:var(--ember); }
-.jump-top svg{ width:16px; height:16px; }
+    .samagana-list {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .samagana-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      transition: opacity .15s, border-color .15s;
+    }
+    .samagana-item.sg-match {
+      border-color: var(--ember-soft);
+      box-shadow: 0 0 0 1px rgba(179,93,44,.15) inset;
+    }
+    .samagana-item.sg-dim { opacity: .45; }
+    .samagana-item-head {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .samagana-item-head .sg-no {
+      font-family: var(--deva);
+      font-size: 12px;
+      color: var(--ember);
+      border: 1px solid var(--ember-soft);
+      border-radius: 50%;
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .samagana-item-head .sg-meta {
+      font-size: 10.5px;
+      color: var(--ash-dim);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+      min-width: 60px;
+    }
+    .samagana-text {
+      font-family: var(--deva);
+      font-size: calc(17px * var(--zoom, 1));
+      line-height: 2.1;
+      color: var(--paper-dim);
+      word-break: break-word;
+    }
+    .samagana-notes {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--ash-dim);
+      font-style: italic;
+    }
 
-.sidebar-overlay{
-  display:none;
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.5);
-  z-index:15;
-}
-.sidebar-overlay.show{ display:block; }
+    mark {
+      background: var(--ember);
+      color: var(--bg);
+      padding: 0 1px;
+      border-radius: 1px;
+    }
 
-/* ---------------- mobile / touch ---------------- */
-@media (max-width:720px){
-  .sidebar{
-    position:fixed; z-index:20; top:0; bottom:0; left:0;
-    height:100vh; height:100dvh;
-    width:86vw; min-width:0; max-width:340px;
-    box-shadow:20px 0 40px rgba(0,0,0,.4);
-    margin-left:0;
-    transform: translateX(0);
-    transition: transform .28s cubic-bezier(.4,0,.2,1);
-  }
-  .sidebar.collapsed{ margin-left:0; transform: translateX(-105%); }
-  .crumb{ display:none; }
-  .content-inner{ padding:0 16px; }
-  .text-heading h2{ font-size:24px; }
-  .text-heading .stats{ flex-wrap:wrap; row-gap:6px; }
+    .empty-state {
+      text-align: center;
+      padding: 100px 20px;
+      color: var(--ash-dim);
+    }
+    .empty-state svg { width: 38px; height: 38px; margin-bottom: 14px; opacity: .5; }
+    .empty-state p { font-size: 13px; }
 
-  .topbar{
-    padding:10px 12px;
-    gap:8px;
-    padding-top: max(10px, env(safe-area-inset-top));
-  }
-  .global-search input{ padding:9px 30px 9px 30px; font-size:13px; }
-  .icon-btn{ width:38px; height:38px; }
-  .zoom-group{ padding:1px; }
-  .zoom-group button{ width:30px; height:30px; }
-  .zoom-val{ display:none; }
+    .search-results-note {
+      font-size: 12px;
+      color: var(--ash-dim);
+      margin: 0 0 20px;
+    }
+    .search-results-note b { color: var(--gold); }
 
-  .content{ padding:22px 0 90px; }
-  .rik-card{ padding:18px 0; }
-  .rik-meta{ gap:6px 10px; }
-  .rik-tag{ font-size:10px; }
-  .samhita-block{ font-size: calc(17px * var(--zoom, 1)); line-height:1.9; }
-  .pada-block{ font-size: calc(12.5px * var(--zoom, 1)); padding-left:10px; }
-  .samagana-item{ padding:12px 14px; }
-  .samagana-text{ font-size: calc(15.5px * var(--zoom, 1)); line-height:2; }
-  .samagana-item-head{ flex-wrap:wrap; gap:6px; }
-  .samagana-item-head .sg-meta{ white-space:normal; }
+    .jump-top {
+      position: fixed;
+      bottom: 26px; right: 30px;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--ash);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, border-color .15s;
+      z-index: 5;
+    }
+    .jump-top.show { opacity: 1; pointer-events: auto; }
+    .jump-top:hover { border-color: var(--ember-soft); color: var(--ember); }
+    .jump-top svg { width: 16px; height: 16px; }
 
-  .section-heading{ margin:32px 0 14px; }
-  .section-heading h3{ font-size:16px; white-space:normal; }
+    .sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 15;
+    }
+    .sidebar-overlay.show { display: block; }
 
-  .jump-top{ bottom:calc(18px + env(safe-area-inset-bottom)); right:18px; width:42px; height:42px; }
-}
+    /* ---------------- mobile / touch ---------------- */
+    @media (max-width: 720px) {
+      .sidebar {
+        position: fixed; z-index: 20; top: 0; bottom: 0; left: 0;
+        height: 100vh; height: 100dvh;
+        width: 86vw; min-width: 0; max-width: 340px;
+        box-shadow: 20px 0 40px rgba(0,0,0,.4);
+        margin-left: 0;
+        transform: translateX(0);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+      }
+      .sidebar.collapsed { margin-left: 0; transform: translateX(-105%); }
+      .crumb { display: none; }
+      .content-inner { padding: 0 16px; }
+      .text-heading h2 { font-size: 24px; }
+      .text-heading .stats { flex-wrap: wrap; row-gap: 6px; }
 
-@media (max-width:420px){
-  .sidebar{ width:88vw; max-width:none; }
-  .brand-mark{ font-size:22px; }
-  .brand-text h1{ font-size:14.5px; }
-  .text-heading h2{ font-size:21px; }
-  .samhita-block{ font-size: calc(16px * var(--zoom, 1)); }
-  .samagana-text{ font-size: calc(14.5px * var(--zoom, 1)); }
-  .content-inner{ padding:0 13px; }
-}
+      .topbar {
+        padding: 10px 12px;
+        gap: 8px;
+        padding-top: max(10px, env(safe-area-inset-top));
+        justify-content: center;
+      }
+      .global-search input { padding: 9px 30px 9px 30px; font-size: 13px; }
+      .icon-btn { width: 38px; height: 38px; }
+      .zoom-group { padding: 1px; }
+      .zoom-group button { width: 30px; height: 30px; }
+      .zoom-val { display: none; }
 
-@supports (padding: max(0px)) {
-  .sidebar-head{ padding-top: max(22px, env(safe-area-inset-top)); }
-}
-</style>
+      .content { padding: 22px 0 90px; }
+      .rik-card { padding: 18px 0; }
+      .rik-meta { gap: 6px 10px; }
+      .rik-tag { font-size: 10px; }
+      .samhita-block { font-size: calc(17px * var(--zoom, 1)); line-height: 1.9; }
+      .pada-block { font-size: calc(12.5px * var(--zoom, 1)); padding-left: 10px; }
+      .samagana-item { padding: 12px 14px; }
+      .samagana-text { font-size: calc(15.5px * var(--zoom, 1)); line-height: 2; }
+      .samagana-item-head { flex-wrap: wrap; gap: 6px; }
+      .samagana-item-head .sg-meta { white-space: normal; }
+
+      .section-heading { margin: 32px 0 14px; }
+      .section-heading h3 { font-size: 16px; white-space: normal; }
+
+      .jump-top { bottom: calc(18px + env(safe-area-inset-bottom)); right: 18px; width: 42px; height: 42px; }
+    }
+
+    @media (max-width: 420px) {
+      .sidebar { width: 88vw; max-width: none; }
+      .brand-mark { font-size: 22px; }
+      .brand-text h1 { font-size: 14.5px; }
+      .text-heading h2 { font-size: 21px; }
+      .samhita-block { font-size: calc(16px * var(--zoom, 1)); }
+      .samagana-text { font-size: calc(14.5px * var(--zoom, 1)); }
+      .content-inner { padding: 0 13px; }
+    }
+
+    @supports (padding: max(0px)) {
+      .sidebar-head { padding-top: max(22px, env(safe-area-inset-top)); }
+    }
+
+    /* remove the theme toggle completely */
+    #themeToggle {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
 <div class="app">
@@ -713,6 +699,7 @@ mark{
   </aside>
 
   <main class="main">
+    <!-- TOPBAR: now fully centered -->
     <div class="topbar">
       <button class="icon-btn" id="toggleSidebar" title="Toggle sidebar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="9" y1="4" x2="9" y2="20"/></svg>
@@ -734,10 +721,7 @@ mark{
         <button id="zoomIn">+</button>
       </div>
 
-      <button class="icon-btn" id="themeToggle" title="Toggle light/dark theme">
-        <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      </button>
+      <!-- theme toggle removed entirely -->
     </div>
 
     <div class="content" id="content">
@@ -751,519 +735,495 @@ mark{
 </button>
 
 <script>
-let DATA = [];
-let TOTAL_RIKS = 0;
-let TOTAL_SAMANS = 0;
+  let DATA = [];
+  let TOTAL_RIKS = 0;
+  let TOTAL_SAMANS = 0;
 
-const TEXT_META = {
-  agneyam:   { translit: "Āgnēyam",           idx:"अ" },
-  aindram:   { translit: "Aindram",           idx:"ऐ" },
-  pavamanam: { translit: "Pavamānam",         idx:"प" },
-  aranyaka:  { translit: "Āraṇyaka Gānam",    idx:"आ" },
-  mahamnaya: { translit: "Mahānāmnyarcikam",  idx:"म" },
-};
+  const TEXT_META = {
+    agneyam:   { translit: "Āgnēyam",           idx:"अ" },
+    aindram:   { translit: "Aindram",           idx:"ऐ" },
+    pavamanam: { translit: "Pavamānam",         idx:"प" },
+    aranyaka:  { translit: "Āraṇyaka Gānam",    idx:"आ" },
+    mahamnaya: { translit: "Mahānāmnyarcikam",  idx:"म" },
+  };
 
-let zoom = 1;
-let currentRikEl = null;
+  let zoom = 1;
+  let currentRikEl = null;
 
-/* ---------------- sidebar tree build ---------------- */
-const treeRoot = document.getElementById('sidebarTree');
+  /* ---------------- sidebar tree build ---------------- */
+  const treeRoot = document.getElementById('sidebarTree');
 
-function buildTree(){
-  treeRoot.innerHTML = '';
-  DATA.forEach((text, ti) => {
-    const meta = TEXT_META[text.key] || {translit:text.title, idx:'?'};
-    const nRiks = text.sections.reduce((a,s)=>a+s.riks.length,0);
-    const group = document.createElement('div');
-    group.className = 'text-group';
-    group.dataset.textIdx = ti;
+  function buildTree(){
+    treeRoot.innerHTML = '';
+    DATA.forEach((text, ti) => {
+      const meta = TEXT_META[text.key] || {translit:text.title, idx:'?'};
+      const nRiks = text.sections.reduce((a,s)=>a+s.riks.length,0);
+      const group = document.createElement('div');
+      group.className = 'text-group';
+      group.dataset.textIdx = ti;
 
-    const toggle = document.createElement('button');
-    toggle.className = 'text-toggle';
-    toggle.innerHTML = `<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
-      <span class="idx">${meta.idx}</span>
-      <span class="label">${meta.translit}</span>
-      <span class="count">${nRiks}</span>`;
-    toggle.addEventListener('click', () => {
-      const wasOpen = group.classList.contains('open');
-      group.classList.toggle('open');
-      if(!wasOpen){ scrollToText(ti); }
-    });
-    group.appendChild(toggle);
-
-    const sectionList = document.createElement('div');
-    sectionList.className = 'section-list';
-
-    text.sections.forEach((sec, si) => {
-      const secItem = document.createElement('div');
-      secItem.className = 'section-item';
-      secItem.dataset.textIdx = ti;
-      secItem.dataset.secIdx = si;
-
-      const secToggle = document.createElement('button');
-      secToggle.className = 'section-toggle';
-      const secLabelFull = sec.sub ? `${sec.label} (${sec.sub})` : sec.label;
-      secToggle.title = secLabelFull;
-      secToggle.innerHTML = `<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
-        <span class="label">${sec.label}</span>
-        <span class="count">${sec.riks.length}</span>`;
-      secToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const wasOpen = secItem.classList.contains('open');
-        secItem.classList.toggle('open');
-        if(!wasOpen){ scrollToSection(ti, si); }
+      const toggle = document.createElement('button');
+      toggle.className = 'text-toggle';
+      toggle.innerHTML = `<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
+        <span class="idx">${meta.idx}</span>
+        <span class="label">${meta.translit}</span>
+        <span class="count">${nRiks}</span>`;
+      toggle.addEventListener('click', () => {
+        const wasOpen = group.classList.contains('open');
+        group.classList.toggle('open');
+        if(!wasOpen){ scrollToText(ti); }
       });
-      secItem.appendChild(secToggle);
+      group.appendChild(toggle);
 
-      const rikList = document.createElement('div');
-      rikList.className = 'rik-list';
-      sec.riks.forEach((r, ri) => {
-        const rikBtn = document.createElement('button');
-        rikBtn.className = 'rik-link';
-        rikBtn.dataset.textIdx = ti;
-        rikBtn.dataset.secIdx = si;
-        rikBtn.dataset.rikIdx = ri;
-        const label = r.rik_no ? `R̥k ${r.rik_no}` : (r.ref || `#${ri+1}`);
-        rikBtn.textContent = label + (r.devata ? ` — ${r.devata}` : '');
-        rikBtn.addEventListener('click', (e) => {
+      const sectionList = document.createElement('div');
+      sectionList.className = 'section-list';
+
+      text.sections.forEach((sec, si) => {
+        const secItem = document.createElement('div');
+        secItem.className = 'section-item';
+        secItem.dataset.textIdx = ti;
+        secItem.dataset.secIdx = si;
+
+        const secToggle = document.createElement('button');
+        secToggle.className = 'section-toggle';
+        const secLabelFull = sec.sub ? `${sec.label} (${sec.sub})` : sec.label;
+        secToggle.title = secLabelFull;
+        secToggle.innerHTML = `<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
+          <span class="label">${sec.label}</span>
+          <span class="count">${sec.riks.length}</span>`;
+        secToggle.addEventListener('click', (e) => {
           e.stopPropagation();
-          scrollToRik(ti, si, ri);
-          if(window.innerWidth <= 720) closeSidebarMobile();
+          const wasOpen = secItem.classList.contains('open');
+          secItem.classList.toggle('open');
+          if(!wasOpen){ scrollToSection(ti, si); }
         });
-        rikList.appendChild(rikBtn);
+        secItem.appendChild(secToggle);
+
+        const rikList = document.createElement('div');
+        rikList.className = 'rik-list';
+        sec.riks.forEach((r, ri) => {
+          const rikBtn = document.createElement('button');
+          rikBtn.className = 'rik-link';
+          rikBtn.dataset.textIdx = ti;
+          rikBtn.dataset.secIdx = si;
+          rikBtn.dataset.rikIdx = ri;
+          const label = r.rik_no ? `R̥k ${r.rik_no}` : (r.ref || `#${ri+1}`);
+          rikBtn.textContent = label + (r.devata ? ` — ${r.devata}` : '');
+          rikBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            scrollToRik(ti, si, ri);
+            if(window.innerWidth <= 720) closeSidebarMobile();
+          });
+          rikList.appendChild(rikBtn);
+        });
+        secItem.appendChild(rikList);
+        sectionList.appendChild(secItem);
       });
-      secItem.appendChild(rikList);
-      sectionList.appendChild(secItem);
+
+      group.appendChild(sectionList);
+      treeRoot.appendChild(group);
     });
-
-    group.appendChild(sectionList);
-    treeRoot.appendChild(group);
-  });
-}
-
-/* ---------------- content render (full library, sectioned) ---------------- */
-const contentInner = document.getElementById('contentInner');
-
-function escapeHtml(s){
-  return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-}
-
-function renderRikMeta(r, terms){
-  const hl = (s) => terms ? highlightMatches(s, terms) : escapeHtml(s);
-  const tags = [];
-  if(r.prapathaka) tags.push(`<span class="rik-tag">Prapāṭhaka: <b>${hl(r.prapathaka)}</b></span>`);
-  if(r.ardha) tags.push(`<span class="rik-tag">Ardha: <b>${hl(r.ardha)}</b></span>`);
-  if(r.khanda) tags.push(`<span class="rik-tag">Khaṇḍa: <b>${hl(r.khanda)}</b></span>`);
-  if(r.rishi) tags.push(`<span class="rik-tag">R̥ṣi: <b>${hl(r.rishi)}</b></span>`);
-  if(r.chandas) tags.push(`<span class="rik-tag">Chandas: <b>${hl(r.chandas)}</b></span>`);
-  if(r.devata) tags.push(`<span class="rik-tag">Devatā: <b>${hl(r.devata)}</b></span>`);
-  if(r.ref) tags.push(`<span class="rik-tag">${hl(r.ref)}</span>`);
-  return tags.join('');
-}
-
-function renderRik(text, ti, si, r, ri, searchOpts){
-  const terms = searchOpts && searchOpts.terms;
-  const matchedIdx = (searchOpts && searchOpts.matchedSamaganaIdx) || null;
-  const hl = (s) => terms ? highlightMatches(s, terms) : escapeHtml(s);
-  const badge = r.rik_no ? `R̥k ${escapeHtml(String(r.rik_no))}` : '';
-  let html = `<div class="rik-card" id="rik-${ti}-${si}-${ri}" data-text="${ti}" data-sec="${si}" data-rik="${ri}">`;
-  html += `<div class="rik-meta">`;
-  if(badge) html += `<span class="rik-no-badge">${badge}</span>`;
-  if(r.global_no) html += `<span class="global-badge" title="R̥k #${r.global_no} of ${TOTAL_RIKS} across all five texts">R̥k №${r.global_no}</span>`;
-  html += renderRikMeta(r, terms);
-  html += `</div>`;
-  if(r.samhita){
-    html += `<div class="samhita-block">${hl(r.samhita)}</div>`;
   }
-  if(r.pada){
-    html += `<div class="pada-block">${hl(r.pada)}</div>`;
+
+  /* ---------------- content render ---------------- */
+  const contentInner = document.getElementById('contentInner');
+
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   }
-  if(r.notes){
-    html += `<div class="rik-notes">${hl(r.notes)}</div>`;
+
+  function renderRikMeta(r, terms){
+    const hl = (s) => terms ? highlightMatches(s, terms) : escapeHtml(s);
+    const tags = [];
+    if(r.prapathaka) tags.push(`<span class="rik-tag">Prapāṭhaka: <b>${hl(r.prapathaka)}</b></span>`);
+    if(r.ardha) tags.push(`<span class="rik-tag">Ardha: <b>${hl(r.ardha)}</b></span>`);
+    if(r.khanda) tags.push(`<span class="rik-tag">Khaṇḍa: <b>${hl(r.khanda)}</b></span>`);
+    if(r.rishi) tags.push(`<span class="rik-tag">R̥ṣi: <b>${hl(r.rishi)}</b></span>`);
+    if(r.chandas) tags.push(`<span class="rik-tag">Chandas: <b>${hl(r.chandas)}</b></span>`);
+    if(r.devata) tags.push(`<span class="rik-tag">Devatā: <b>${hl(r.devata)}</b></span>`);
+    if(r.ref) tags.push(`<span class="rik-tag">${hl(r.ref)}</span>`);
+    return tags.join('');
   }
-  if(r.samaganas && r.samaganas.length){
-    html += `<div class="samagana-list">`;
-    r.samaganas.forEach((sg, idx) => {
-      const isMatch = matchedIdx ? matchedIdx.has(idx) : false;
-      const dim = matchedIdx && matchedIdx.size > 0 && !isMatch;
-      const cls = 'samagana-item' + (isMatch ? ' sg-match' : '') + (dim ? ' sg-dim' : '');
-      html += `<div class="${cls}">
-        <div class="samagana-item-head">
-          <span class="sg-no">${escapeHtml(String(sg.no||''))}</span>
-          ${sg.global_no ? `<span class="global-badge sg-global" title="Sāman #${sg.global_no} of ${TOTAL_SAMANS} across all five texts">Sāman №${sg.global_no}</span>` : ''}
-          <span class="sg-meta">${[sg.rishi,sg.chandas,sg.devata].filter(Boolean).map(v=>hl(v)).join(' · ')}${sg.ref?` · ${hl(sg.ref)}`:''}</span>
-        </div>
-        <div class="samagana-text">${hl(sg.text)}</div>
-        ${sg.notes ? `<div class="samagana-notes">${hl(sg.notes)}</div>` : ''}
-      </div>`;
-    });
+
+  function renderRik(text, ti, si, r, ri, searchOpts){
+    const terms = searchOpts && searchOpts.terms;
+    const matchedIdx = (searchOpts && searchOpts.matchedSamaganaIdx) || null;
+    const hl = (s) => terms ? highlightMatches(s, terms) : escapeHtml(s);
+    const badge = r.rik_no ? `R̥k ${escapeHtml(String(r.rik_no))}` : '';
+    let html = `<div class="rik-card" id="rik-${ti}-${si}-${ri}" data-text="${ti}" data-sec="${si}" data-rik="${ri}">`;
+    html += `<div class="rik-meta">`;
+    if(badge) html += `<span class="rik-no-badge">${badge}</span>`;
+    if(r.global_no) html += `<span class="global-badge" title="R̥k #${r.global_no} of ${TOTAL_RIKS} across all five texts">R̥k №${r.global_no}</span>`;
+    html += renderRikMeta(r, terms);
     html += `</div>`;
-  }
-  html += `</div>`;
-  return html;
-}
-
-function renderAll(){
-  let html = '';
-  DATA.forEach((text, ti) => {
-    const meta = TEXT_META[text.key] || {translit:text.title, idx:'?'};
-    const nRiks = text.sections.reduce((a,s)=>a+s.riks.length,0);
-    const nSg = text.sections.reduce((a,s)=>a+s.riks.reduce((b,r)=>b+r.samaganas.length,0),0);
-    html += `<section class="text-section" id="text-${ti}" data-text="${ti}">`;
-    html += `<div class="text-heading">
-      <div class="lbl">SĀMAVEDA · SECTION ${ti+1} OF ${DATA.length}</div>
-      <h2>${escapeHtml(text.title)}</h2>
-      <p class="translit">${escapeHtml(meta.translit)}</p>
-      <p class="desc">${escapeHtml(text.desc||'')}</p>
-      <div class="stats"><span><b>${text.sections.length}</b> sections</span><span><b>${nRiks}</b> r̥ks</span><span><b>${nSg}</b> sāma-gānas</span></div>
-    </div>`;
-
-    text.sections.forEach((sec, si) => {
-      html += `<div class="section-heading" id="sec-${ti}-${si}" data-text="${ti}" data-sec="${si}"><h3>${escapeHtml(sec.label)}</h3>${sec.sub?`<span class="sub">${escapeHtml(sec.sub)}</span>`:''}<div class="rule"></div></div>`;
-      sec.riks.forEach((r, ri) => {
-        html += renderRik(text, ti, si, r, ri);
-      });
-    });
-
-    html += `</section>`;
-  });
-  contentInner.innerHTML = html;
-}
-
-/* ---------------- scroll navigation ---------------- */
-const contentEl = document.getElementById('content');
-
-function scrollToText(ti){
-  const el = document.getElementById(`text-${ti}`);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
-function scrollToSection(ti, si){
-  const el = document.getElementById(`sec-${ti}-${si}`);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
-function scrollToRik(ti, si, ri){
-  const el = document.getElementById(`rik-${ti}-${si}-${ri}`);
-  if(el){
-    el.scrollIntoView({behavior:'smooth', block:'center'});
-    el.classList.remove('match-highlight');
-    void el.offsetWidth;
-    el.classList.add('match-highlight');
-    highlightSidebarRik(ti, si, ri);
-  }
-}
-
-function highlightSidebarRik(ti, si, ri){
-  document.querySelectorAll('.rik-link.current').forEach(el => el.classList.remove('current'));
-  const btn = document.querySelector(`.rik-link[data-text-idx="${ti}"][data-sec-idx="${si}"][data-rik-idx="${ri}"]`);
-  if(btn){
-    btn.classList.add('current');
-    const secItem = btn.closest('.section-item');
-    const group = btn.closest('.text-group');
-    if(secItem) secItem.classList.add('open');
-    if(group) group.classList.add('open');
-    btn.scrollIntoView({block:'nearest'});
-  }
-}
-
-/* ---------------- sidebar collapse ---------------- */
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('overlay');
-document.getElementById('toggleSidebar').addEventListener('click', () => {
-  sidebar.classList.toggle('collapsed');
-  if(window.innerWidth <= 720){
-    overlay.classList.toggle('show', !sidebar.classList.contains('collapsed'));
-  }
-});
-overlay.addEventListener('click', closeSidebarMobile);
-function closeSidebarMobile(){
-  sidebar.classList.add('collapsed');
-  overlay.classList.remove('show');
-}
-if(window.innerWidth <= 720){ sidebar.classList.add('collapsed'); }
-
-/* ---------------- sidebar filter ---------------- */
-document.getElementById('sidebarFilter').addEventListener('input', (e) => {
-  const q = e.target.value.trim().toLowerCase();
-  document.querySelectorAll('.text-group').forEach(group => {
-    let groupHasMatch = false;
-    group.querySelectorAll('.section-item').forEach(secItem => {
-      let secHasMatch = false;
-      secItem.querySelectorAll('.rik-link').forEach(link => {
-        const match = !q || link.textContent.toLowerCase().includes(q);
-        link.style.display = match ? '' : 'none';
-        if(match) secHasMatch = true;
-      });
-      const secLabel = secItem.querySelector('.section-toggle .label').textContent.toLowerCase();
-      const secMatch = secHasMatch || !q || secLabel.includes(q);
-      secItem.style.display = secMatch ? '' : 'none';
-      if(secMatch) groupHasMatch = true;
-      if(q && secHasMatch) secItem.classList.add('open');
-    });
-    group.style.display = groupHasMatch || !q ? '' : 'none';
-    if(q && groupHasMatch) group.classList.add('open');
-  });
-});
-
-/* ---------------- global content search ---------------- */
-const globalSearch = document.getElementById('globalSearch');
-const clearSearch = document.getElementById('clearSearch');
-let searchIndex = [];
-
-// Escape one character for safe use inside a RegExp.
-function escapeRegexChar(ch){
-  return ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-// Build a regex from a raw (possibly accented-Devanagari-free) query term that
-// tolerates any Vedic accent / combining marks interleaved between characters
-// of the source text, e.g. typing "अग्न" will match "अ꣢ग्न꣣" in the verse.
-function buildFuzzyRegex(term){
-  const chars = Array.from(term);
-  const pattern = chars.map(escapeRegexChar).join('\\p{M}*');
-  try{ return new RegExp(pattern, 'giu'); }
-  catch(e){ return new RegExp(chars.map(escapeRegexChar).join(''), 'gi'); }
-}
-// Split a query into terms, honoring "quoted phrases" as a single term.
-function splitTerms(q){
-  const terms = [];
-  const re = /"([^"]+)"|(\S+)/g;
-  let m;
-  while((m = re.exec(q))){
-    const t = (m[1] || m[2] || '').trim();
-    if(t) terms.push(t);
-  }
-  return terms;
-}
-
-const FIELD_WEIGHT = {
-  number: 200, rishi: 80, devata: 80, chandas: 70, ref: 60,
-  samhita: 50, notes: 40, pada: 35, sg_text: 25, sg_notes: 20
-};
-
-function buildSearchIndex(){
-  searchIndex = [];
-  DATA.forEach((text, ti) => {
-    text.sections.forEach((sec, si) => {
-      sec.riks.forEach((r, ri) => {
-        const fields = {
-          number: [r.rik_no, r.global_no, r.ref].filter(Boolean).map(String).join(' '),
-          rishi: r.rishi || '',
-          chandas: r.chandas || '',
-          devata: r.devata || '',
-          ref: r.ref || '',
-          samhita: r.samhita || '',
-          pada: r.pada || '',
-          notes: r.notes || ''
-        };
-        const sgFields = (r.samaganas||[]).map(sg => ({
-          sg,
-          number: [sg.no, sg.global_no, sg.ref].filter(Boolean).map(String).join(' '),
-          rishi: sg.rishi || '', chandas: sg.chandas || '', devata: sg.devata || '',
-          sg_text: sg.text || '', sg_notes: sg.notes || ''
-        }));
-        searchIndex.push({ti, si, ri, r, fields, sgFields, textTitle: text.title, secLabel: sec.label});
-      });
-    });
-  });
-}
-
-function scoreEntry(entry, terms){
-  let total = 0;
-  const matchedSamaganaIdx = new Set();
-  for(const term of terms){
-    const re = buildFuzzyRegex(term);
-    let bestWeight = 0;
-    for(const key of Object.keys(entry.fields)){
-      re.lastIndex = 0;
-      if(entry.fields[key] && re.test(entry.fields[key])){
-        bestWeight = Math.max(bestWeight, FIELD_WEIGHT[key] || 10);
-      }
+    if(r.samhita){
+      html += `<div class="samhita-block">${hl(r.samhita)}</div>`;
     }
-    entry.sgFields.forEach((sgf, idx) => {
-      for(const key of ['number','rishi','chandas','devata','sg_text','sg_notes']){
+    if(r.pada){
+      html += `<div class="pada-block">${hl(r.pada)}</div>`;
+    }
+    if(r.notes){
+      html += `<div class="rik-notes">${hl(r.notes)}</div>`;
+    }
+    if(r.samaganas && r.samaganas.length){
+      html += `<div class="samagana-list">`;
+      r.samaganas.forEach((sg, idx) => {
+        const isMatch = matchedIdx ? matchedIdx.has(idx) : false;
+        const dim = matchedIdx && matchedIdx.size > 0 && !isMatch;
+        const cls = 'samagana-item' + (isMatch ? ' sg-match' : '') + (dim ? ' sg-dim' : '');
+        html += `<div class="${cls}">
+          <div class="samagana-item-head">
+            <span class="sg-no">${escapeHtml(String(sg.no||''))}</span>
+            ${sg.global_no ? `<span class="global-badge sg-global" title="Sāman #${sg.global_no} of ${TOTAL_SAMANS} across all five texts">Sāman №${sg.global_no}</span>` : ''}
+            <span class="sg-meta">${[sg.rishi,sg.chandas,sg.devata].filter(Boolean).map(v=>hl(v)).join(' · ')}${sg.ref?` · ${hl(sg.ref)}`:''}</span>
+          </div>
+          <div class="samagana-text">${hl(sg.text)}</div>
+          ${sg.notes ? `<div class="samagana-notes">${hl(sg.notes)}</div>` : ''}
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  function renderAll(){
+    let html = '';
+    DATA.forEach((text, ti) => {
+      const meta = TEXT_META[text.key] || {translit:text.title, idx:'?'};
+      const nRiks = text.sections.reduce((a,s)=>a+s.riks.length,0);
+      const nSg = text.sections.reduce((a,s)=>a+s.riks.reduce((b,r)=>b+r.samaganas.length,0),0);
+      html += `<section class="text-section" id="text-${ti}" data-text="${ti}">`;
+      html += `<div class="text-heading">
+        <div class="lbl">SĀMAVEDA · SECTION ${ti+1} OF ${DATA.length}</div>
+        <h2>${escapeHtml(text.title)}</h2>
+        <p class="translit">${escapeHtml(meta.translit)}</p>
+        <p class="desc">${escapeHtml(text.desc||'')}</p>
+        <div class="stats"><span><b>${text.sections.length}</b> sections</span><span><b>${nRiks}</b> r̥ks</span><span><b>${nSg}</b> sāma-gānas</span></div>
+      </div>`;
+
+      text.sections.forEach((sec, si) => {
+        html += `<div class="section-heading" id="sec-${ti}-${si}" data-text="${ti}" data-sec="${si}"><h3>${escapeHtml(sec.label)}</h3>${sec.sub?`<span class="sub">${escapeHtml(sec.sub)}</span>`:''}<div class="rule"></div></div>`;
+        sec.riks.forEach((r, ri) => {
+          html += renderRik(text, ti, si, r, ri);
+        });
+      });
+
+      html += `</section>`;
+    });
+    contentInner.innerHTML = html;
+  }
+
+  /* ---------------- scroll navigation ---------------- */
+  const contentEl = document.getElementById('content');
+
+  function scrollToText(ti){
+    const el = document.getElementById(`text-${ti}`);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function scrollToSection(ti, si){
+    const el = document.getElementById(`sec-${ti}-${si}`);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function scrollToRik(ti, si, ri){
+    const el = document.getElementById(`rik-${ti}-${si}-${ri}`);
+    if(el){
+      el.scrollIntoView({behavior:'smooth', block:'center'});
+      el.classList.remove('match-highlight');
+      void el.offsetWidth;
+      el.classList.add('match-highlight');
+      highlightSidebarRik(ti, si, ri);
+    }
+  }
+
+  function highlightSidebarRik(ti, si, ri){
+    document.querySelectorAll('.rik-link.current').forEach(el => el.classList.remove('current'));
+    const btn = document.querySelector(`.rik-link[data-text-idx="${ti}"][data-sec-idx="${si}"][data-rik-idx="${ri}"]`);
+    if(btn){
+      btn.classList.add('current');
+      const secItem = btn.closest('.section-item');
+      const group = btn.closest('.text-group');
+      if(secItem) secItem.classList.add('open');
+      if(group) group.classList.add('open');
+      btn.scrollIntoView({block:'nearest'});
+    }
+  }
+
+  /* ---------------- sidebar collapse ---------------- */
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  document.getElementById('toggleSidebar').addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    if(window.innerWidth <= 720){
+      overlay.classList.toggle('show', !sidebar.classList.contains('collapsed'));
+    }
+  });
+  overlay.addEventListener('click', closeSidebarMobile);
+  function closeSidebarMobile(){
+    sidebar.classList.add('collapsed');
+    overlay.classList.remove('show');
+  }
+  if(window.innerWidth <= 720){ sidebar.classList.add('collapsed'); }
+
+  /* ---------------- sidebar filter ---------------- */
+  document.getElementById('sidebarFilter').addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll('.text-group').forEach(group => {
+      let groupHasMatch = false;
+      group.querySelectorAll('.section-item').forEach(secItem => {
+        let secHasMatch = false;
+        secItem.querySelectorAll('.rik-link').forEach(link => {
+          const match = !q || link.textContent.toLowerCase().includes(q);
+          link.style.display = match ? '' : 'none';
+          if(match) secHasMatch = true;
+        });
+        const secLabel = secItem.querySelector('.section-toggle .label').textContent.toLowerCase();
+        const secMatch = secHasMatch || !q || secLabel.includes(q);
+        secItem.style.display = secMatch ? '' : 'none';
+        if(secMatch) groupHasMatch = true;
+        if(q && secHasMatch) secItem.classList.add('open');
+      });
+      group.style.display = groupHasMatch || !q ? '' : 'none';
+      if(q && groupHasMatch) group.classList.add('open');
+    });
+  });
+
+  /* ---------------- global content search ---------------- */
+  const globalSearch = document.getElementById('globalSearch');
+  const clearSearch = document.getElementById('clearSearch');
+  let searchIndex = [];
+
+  function escapeRegexChar(ch){
+    return ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+  function buildFuzzyRegex(term){
+    const chars = Array.from(term);
+    const pattern = chars.map(escapeRegexChar).join('\\p{M}*');
+    try{ return new RegExp(pattern, 'giu'); }
+    catch(e){ return new RegExp(chars.map(escapeRegexChar).join(''), 'gi'); }
+  }
+  function splitTerms(q){
+    const terms = [];
+    const re = /"([^"]+)"|(\S+)/g;
+    let m;
+    while((m = re.exec(q))){
+      const t = (m[1] || m[2] || '').trim();
+      if(t) terms.push(t);
+    }
+    return terms;
+  }
+
+  const FIELD_WEIGHT = {
+    number: 200, rishi: 80, devata: 80, chandas: 70, ref: 60,
+    samhita: 50, notes: 40, pada: 35, sg_text: 25, sg_notes: 20
+  };
+
+  function buildSearchIndex(){
+    searchIndex = [];
+    DATA.forEach((text, ti) => {
+      text.sections.forEach((sec, si) => {
+        sec.riks.forEach((r, ri) => {
+          const fields = {
+            number: [r.rik_no, r.global_no, r.ref].filter(Boolean).map(String).join(' '),
+            rishi: r.rishi || '',
+            chandas: r.chandas || '',
+            devata: r.devata || '',
+            ref: r.ref || '',
+            samhita: r.samhita || '',
+            pada: r.pada || '',
+            notes: r.notes || ''
+          };
+          const sgFields = (r.samaganas||[]).map(sg => ({
+            sg,
+            number: [sg.no, sg.global_no, sg.ref].filter(Boolean).map(String).join(' '),
+            rishi: sg.rishi || '', chandas: sg.chandas || '', devata: sg.devata || '',
+            sg_text: sg.text || '', sg_notes: sg.notes || ''
+          }));
+          searchIndex.push({ti, si, ri, r, fields, sgFields, textTitle: text.title, secLabel: sec.label});
+        });
+      });
+    });
+  }
+
+  function scoreEntry(entry, terms){
+    let total = 0;
+    const matchedSamaganaIdx = new Set();
+    for(const term of terms){
+      const re = buildFuzzyRegex(term);
+      let bestWeight = 0;
+      for(const key of Object.keys(entry.fields)){
         re.lastIndex = 0;
-        const val = sgf[key];
-        if(val && re.test(val)){
-          const w = key === 'sg_text' ? FIELD_WEIGHT.sg_text
-                  : key === 'sg_notes' ? FIELD_WEIGHT.sg_notes
-                  : key === 'number' ? FIELD_WEIGHT.number
-                  : FIELD_WEIGHT[key] || 40;
-          bestWeight = Math.max(bestWeight, w);
-          matchedSamaganaIdx.add(idx);
+        if(entry.fields[key] && re.test(entry.fields[key])){
+          bestWeight = Math.max(bestWeight, FIELD_WEIGHT[key] || 10);
         }
       }
-    });
-    if(bestWeight === 0) return null; // this term matched nothing -> AND fails
-    total += bestWeight;
+      entry.sgFields.forEach((sgf, idx) => {
+        for(const key of ['number','rishi','chandas','devata','sg_text','sg_notes']){
+          re.lastIndex = 0;
+          const val = sgf[key];
+          if(val && re.test(val)){
+            const w = key === 'sg_text' ? FIELD_WEIGHT.sg_text
+                    : key === 'sg_notes' ? FIELD_WEIGHT.sg_notes
+                    : key === 'number' ? FIELD_WEIGHT.number
+                    : FIELD_WEIGHT[key] || 40;
+            bestWeight = Math.max(bestWeight, w);
+            matchedSamaganaIdx.add(idx);
+          }
+        }
+      });
+      if(bestWeight === 0) return null;
+      total += bestWeight;
+    }
+    return {score: total, matchedSamaganaIdx};
   }
-  return {score: total, matchedSamaganaIdx};
-}
 
-function highlightMatches(str, terms){
-  if(!str || !terms.length) return escapeHtml(str);
-  // Work on the escaped string but match against a temporary unescaped marker scheme:
-  // simplest safe approach — run each fuzzy regex over the raw string to find ranges,
-  // merge ranges, then build the escaped+marked output.
-  const ranges = [];
-  terms.forEach(term => {
-    const re = buildFuzzyRegex(term);
-    let m;
-    while((m = re.exec(str))){
-      if(m[0].length === 0){ re.lastIndex++; continue; }
-      ranges.push([m.index, m.index + m[0].length]);
-      if(re.lastIndex > str.length) break;
+  function highlightMatches(str, terms){
+    if(!str || !terms.length) return escapeHtml(str);
+    const ranges = [];
+    terms.forEach(term => {
+      const re = buildFuzzyRegex(term);
+      let m;
+      while((m = re.exec(str))){
+        if(m[0].length === 0){ re.lastIndex++; continue; }
+        ranges.push([m.index, m.index + m[0].length]);
+        if(re.lastIndex > str.length) break;
+      }
+    });
+    if(!ranges.length) return escapeHtml(str);
+    ranges.sort((a,b)=>a[0]-b[0]);
+    const merged = [ranges[0]];
+    for(let i=1;i<ranges.length;i++){
+      const last = merged[merged.length-1];
+      if(ranges[i][0] <= last[1]) last[1] = Math.max(last[1], ranges[i][1]);
+      else merged.push(ranges[i]);
+    }
+    let out = '', cursor = 0;
+    merged.forEach(([s,e]) => {
+      out += escapeHtml(str.slice(cursor, s));
+      out += '<mark>' + escapeHtml(str.slice(s, e)) + '</mark>';
+      cursor = e;
+    });
+    out += escapeHtml(str.slice(cursor));
+    return out;
+  }
+
+  function runGlobalSearch(qRaw){
+    const q = qRaw.trim();
+    clearSearch.classList.toggle('show', !!q);
+    if(!q){
+      renderAll();
+      document.getElementById('crumb').textContent = '';
+      return;
+    }
+    const terms = splitTerms(q);
+    if(!terms.length){ renderAll(); return; }
+
+    const scored = [];
+    for(const entry of searchIndex){
+      const res = scoreEntry(entry, terms);
+      if(res) scored.push({entry, ...res});
+    }
+    scored.sort((a,b) => b.score - a.score || a.entry.ti-b.entry.ti || a.entry.si-b.entry.si || a.entry.ri-b.entry.ri);
+
+    const totalSamaganaMatches = scored.reduce((a,s)=>a + (s.matchedSamaganaIdx.size || 0), 0);
+    let html = `<div class="search-results-note">Found <b>${scored.length}</b> matching r̥k${scored.length===1?'':'s'}`
+      + (totalSamaganaMatches ? ` (<b>${totalSamaganaMatches}</b> sāma-gāna${totalSamaganaMatches===1?'':'s'} directly matched)` : '')
+      + ` for "<b>${escapeHtml(q)}</b>"</div>`;
+
+    if(!scored.length){
+      html += `<div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
+        <p>No verses match your search. Try fewer or different terms — accents/svara marks are ignored automatically.</p>
+      </div>`;
+    } else {
+      let lastKey = '';
+      scored.slice(0, 400).forEach(({entry, matchedSamaganaIdx}) => {
+        const meta = TEXT_META[DATA[entry.ti].key] || {translit:entry.textTitle};
+        const key = entry.ti+'-'+entry.si;
+        if(key !== lastKey){
+          html += `<div class="section-heading" style="margin-top:26px;"><h3 style="font-size:13px;">${escapeHtml(meta.translit)} — ${escapeHtml(entry.secLabel)}</h3><div class="rule"></div></div>`;
+          lastKey = key;
+        }
+        let rikHtml = renderRik(DATA[entry.ti], entry.ti, entry.si, entry.r, entry.ri, {terms, matchedSamaganaIdx});
+        html += rikHtml;
+      });
+    }
+    contentInner.innerHTML = html;
+    document.getElementById('crumb').innerHTML = `Search: "<b>${escapeHtml(q)}</b>" · ${scored.length} result${scored.length===1?'':'s'}`;
+  }
+
+  let searchTimer;
+  globalSearch.addEventListener('input', (e) => {
+    clearTimeout(searchTimer);
+    const val = e.target.value;
+    searchTimer = setTimeout(() => runGlobalSearch(val), 160);
+  });
+  clearSearch.addEventListener('click', () => {
+    globalSearch.value = '';
+    runGlobalSearch('');
+    globalSearch.focus();
+  });
+
+  /* ---------------- zoom ---------------- */
+  function applyZoom(){
+    document.documentElement.style.setProperty('--zoom', zoom.toFixed(2));
+    document.getElementById('zoomVal').textContent = Math.round(zoom*100) + '%';
+  }
+  document.getElementById('zoomIn').addEventListener('click', () => { zoom = Math.min(2, zoom + 0.1); applyZoom(); });
+  document.getElementById('zoomOut').addEventListener('click', () => { zoom = Math.max(0.6, zoom - 0.1); applyZoom(); });
+
+  /* ---------------- scroll spy for crumb + jump-to-top ---------------- */
+  const jumpTop = document.getElementById('jumpTop');
+  contentEl.addEventListener('scroll', () => {
+    jumpTop.classList.toggle('show', contentEl.scrollTop > 500);
+    if(globalSearch.value.trim()) return;
+    const cards = contentInner.querySelectorAll('.rik-card');
+    let currentTextIdx = 0, currentSecIdx = 0, currentRikIdx = 0, found=false;
+    for(const card of cards){
+      const rect = card.getBoundingClientRect();
+      if(rect.top <= 140){
+        currentTextIdx = +card.dataset.text;
+        currentSecIdx = +card.dataset.sec;
+        currentRikIdx = +card.dataset.rik;
+        found = true;
+      } else break;
+    }
+    if(found){
+      const text = DATA[currentTextIdx];
+      const meta = TEXT_META[text.key] || {translit:text.title};
+      const sec = text.sections[currentSecIdx];
+      document.getElementById('crumb').innerHTML = `<b>${escapeHtml(meta.translit)}</b> / ${escapeHtml(sec.label)}`;
+      highlightSidebarRik(currentTextIdx, currentSecIdx, currentRikIdx);
     }
   });
-  if(!ranges.length) return escapeHtml(str);
-  ranges.sort((a,b)=>a[0]-b[0]);
-  const merged = [ranges[0]];
-  for(let i=1;i<ranges.length;i++){
-    const last = merged[merged.length-1];
-    if(ranges[i][0] <= last[1]) last[1] = Math.max(last[1], ranges[i][1]);
-    else merged.push(ranges[i]);
-  }
-  let out = '', cursor = 0;
-  merged.forEach(([s,e]) => {
-    out += escapeHtml(str.slice(cursor, s));
-    out += '<mark>' + escapeHtml(str.slice(s, e)) + '</mark>';
-    cursor = e;
-  });
-  out += escapeHtml(str.slice(cursor));
-  return out;
-}
+  jumpTop.addEventListener('click', () => contentEl.scrollTo({top:0, behavior:'smooth'}));
 
-function runGlobalSearch(qRaw){
-  const q = qRaw.trim();
-  clearSearch.classList.toggle('show', !!q);
-  if(!q){
+  /* ---------------- init ---------------- */
+  async function init(){
+    try{
+      const res = await fetch('/data/samaveda.json', {cache:'no-cache'});
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      DATA = await res.json();
+    }catch(err){
+      contentInner.innerHTML = `<div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p><b>Could not load data.json.</b><br>${escapeHtml(err.message)}<br><br>
+        Make sure <code>data/samaveda.json</code> sits in a <code>data/</code> folder next to <code>index.html</code>
+        and this page is served over http(s) (opening the file directly via <code>file://</code> blocks the fetch
+        in most browsers — run a local server, e.g. <code>npx serve</code>, or deploy to Vercel).</p>
+      </div>`;
+      return;
+    }
+    TOTAL_RIKS = DATA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.length,0),0);
+    TOTAL_SAMANS = DATA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.reduce((c,r)=>c+r.samaganas.length,0),0),0);
+    buildTree();
+    buildSearchIndex();
     renderAll();
-    document.getElementById('crumb').textContent = '';
-    return;
+    applyZoom();
+    document.querySelectorAll('.text-group')[0]?.classList.add('open');
   }
-  const terms = splitTerms(q);
-  if(!terms.length){ renderAll(); return; }
-
-  const scored = [];
-  for(const entry of searchIndex){
-    const res = scoreEntry(entry, terms);
-    if(res) scored.push({entry, ...res});
-  }
-  scored.sort((a,b) => b.score - a.score || a.entry.ti-b.entry.ti || a.entry.si-b.entry.si || a.entry.ri-b.entry.ri);
-
-  const totalSamaganaMatches = scored.reduce((a,s)=>a + (s.matchedSamaganaIdx.size || 0), 0);
-  let html = `<div class="search-results-note">Found <b>${scored.length}</b> matching r̥k${scored.length===1?'':'s'}`
-    + (totalSamaganaMatches ? ` (<b>${totalSamaganaMatches}</b> sāma-gāna${totalSamaganaMatches===1?'':'s'} directly matched)` : '')
-    + ` for "<b>${escapeHtml(q)}</b>"</div>`;
-
-  if(!scored.length){
-    html += `<div class="empty-state">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
-      <p>No verses match your search. Try fewer or different terms — accents/svara marks are ignored automatically.</p>
-    </div>`;
-  } else {
-    let lastKey = '';
-    scored.slice(0, 400).forEach(({entry, matchedSamaganaIdx}) => {
-      const meta = TEXT_META[DATA[entry.ti].key] || {translit:entry.textTitle};
-      const key = entry.ti+'-'+entry.si;
-      if(key !== lastKey){
-        html += `<div class="section-heading" style="margin-top:26px;"><h3 style="font-size:13px;">${escapeHtml(meta.translit)} — ${escapeHtml(entry.secLabel)}</h3><div class="rule"></div></div>`;
-        lastKey = key;
-      }
-      let rikHtml = renderRik(DATA[entry.ti], entry.ti, entry.si, entry.r, entry.ri, {terms, matchedSamaganaIdx});
-      html += rikHtml;
-    });
-  }
-  contentInner.innerHTML = html;
-  document.getElementById('crumb').innerHTML = `Search: "<b>${escapeHtml(q)}</b>" · ${scored.length} result${scored.length===1?'':'s'}`;
-}
-
-let searchTimer;
-globalSearch.addEventListener('input', (e) => {
-  clearTimeout(searchTimer);
-  const val = e.target.value;
-  searchTimer = setTimeout(() => runGlobalSearch(val), 160);
-});
-clearSearch.addEventListener('click', () => {
-  globalSearch.value = '';
-  runGlobalSearch('');
-  globalSearch.focus();
-});
-
-/* ---------------- zoom ---------------- */
-function applyZoom(){
-  document.documentElement.style.setProperty('--zoom', zoom.toFixed(2));
-  document.getElementById('zoomVal').textContent = Math.round(zoom*100) + '%';
-}
-document.getElementById('zoomIn').addEventListener('click', () => { zoom = Math.min(2, zoom + 0.1); applyZoom(); });
-document.getElementById('zoomOut').addEventListener('click', () => { zoom = Math.max(0.6, zoom - 0.1); applyZoom(); });
-
-/* ---------------- scroll spy for crumb + jump-to-top ---------------- */
-const jumpTop = document.getElementById('jumpTop');
-contentEl.addEventListener('scroll', () => {
-  jumpTop.classList.toggle('show', contentEl.scrollTop > 500);
-  if(globalSearch.value.trim()) return;
-  const cards = contentInner.querySelectorAll('.rik-card');
-  let currentTextIdx = 0, currentSecIdx = 0, currentRikIdx = 0, found=false;
-  for(const card of cards){
-    const rect = card.getBoundingClientRect();
-    if(rect.top <= 140){
-      currentTextIdx = +card.dataset.text;
-      currentSecIdx = +card.dataset.sec;
-      currentRikIdx = +card.dataset.rik;
-      found = true;
-    } else break;
-  }
-  if(found){
-    const text = DATA[currentTextIdx];
-    const meta = TEXT_META[text.key] || {translit:text.title};
-    const sec = text.sections[currentSecIdx];
-    document.getElementById('crumb').innerHTML = `<b>${escapeHtml(meta.translit)}</b> / ${escapeHtml(sec.label)}`;
-    highlightSidebarRik(currentTextIdx, currentSecIdx, currentRikIdx);
-  }
-});
-jumpTop.addEventListener('click', () => contentEl.scrollTo({top:0, behavior:'smooth'}));
-
-/* ---------------- theme toggle ---------------- */
-const themeToggle = document.getElementById('themeToggle');
-const iconMoon = document.getElementById('themeIconMoon');
-const iconSun = document.getElementById('themeIconSun');
-let theme = 'dark';
-function applyTheme(){
-  document.documentElement.setAttribute('data-theme', theme);
-  iconMoon.style.display = theme === 'dark' ? '' : 'none';
-  iconSun.style.display = theme === 'light' ? '' : 'none';
-}
-themeToggle.addEventListener('click', () => {
-  theme = theme === 'dark' ? 'light' : 'dark';
-  applyTheme();
-});
-
-/* ---------------- init (fetch data.json, then boot the UI) ---------------- */
-async function init(){
-  try{
-    const res = await fetch('/data/samaveda.json', {cache:'no-cache'});
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    DATA = await res.json();
-  }catch(err){
-    contentInner.innerHTML = `<div class="empty-state">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <p><b>Could not load data.json.</b><br>${escapeHtml(err.message)}<br><br>
-      Make sure <code>data/samaveda.json</code> sits in a <code>data/</code> folder next to <code>index.html</code>
-      and this page is served over http(s) (opening the file directly via <code>file://</code> blocks the fetch
-      in most browsers — run a local server, e.g. <code>npx serve</code>, or deploy to Vercel).</p>
-    </div>`;
-    return;
-  }
-  TOTAL_RIKS = DATA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.length,0),0);
-  TOTAL_SAMANS = DATA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.reduce((c,r)=>c+r.samaganas.length,0),0),0);
-  buildTree();
-  buildSearchIndex();
-  renderAll();
-  applyZoom();
-  applyTheme();
-  document.querySelectorAll('.text-group')[0]?.classList.add('open');
-}
-contentInner.innerHTML = `<div class="empty-state"><p>Loading Sāmaveda </p></div>`;
-init();
+  contentInner.innerHTML = `<div class="empty-state"><p>Loading Sāmaveda …</p></div>`;
+  init();
 </script>
 </body>
 </html>
