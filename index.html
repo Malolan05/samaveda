@@ -1,10 +1,9 @@
-```
 <!DOCTYPE html>
 <html lang="sa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sāmaveda</title>
+<title>Sāmaveda · Sāma-gāna Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -588,142 +587,6 @@ mark{
   padding:0 1px;
   border-radius:1px;
 }
-/* ---------- bookmarks ---------- */
-.rik-card{ position:relative; }
-.rik-actions{
-  position:absolute;
-  top:18px;
-  right:0;
-  z-index:2;
-}
-.bookmark-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  color:var(--ash-dim);
-  border-radius:var(--radius);
-  padding:6px 9px;
-  font:500 10.5px var(--sans);
-  cursor:pointer;
-  transition:border-color .15s,color .15s,background-color .15s;
-}
-.bookmark-btn:hover{
-  border-color:var(--ember-soft);
-  color:var(--ember);
-}
-.bookmark-btn.bookmarked{
-  color:var(--ember);
-  border-color:var(--ember-soft);
-  background:rgba(200,120,63,.08);
-}
-.bookmark-btn svg{ width:14px; height:14px; flex-shrink:0; }
-.bookmark-top-btn{ position:relative; }
-.bookmark-count{
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  min-width:15px;
-  height:15px;
-  padding:0 4px;
-  border-radius:10px;
-  background:var(--ember);
-  color:var(--bg);
-  font:700 9px/15px var(--sans);
-  text-align:center;
-  display:none;
-}
-.bookmark-count.show{ display:block; }
-
-.bookmarks-panel{
-  padding:0 0 20px;
-}
-.bookmarks-panel .panel-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin:6px 0 22px;
-  padding-bottom:16px;
-  border-bottom:1px solid var(--line);
-}
-.bookmarks-panel .panel-title h2{
-  margin:0;
-  font:600 25px var(--serif);
-  color:var(--paper);
-}
-.bookmarks-panel .panel-title p{
-  margin:4px 0 0;
-  color:var(--ash-dim);
-  font-size:11.5px;
-}
-.clear-bookmarks{
-  background:none;
-  border:1px solid var(--line);
-  color:var(--ash);
-  border-radius:var(--radius);
-  padding:7px 10px;
-  font:500 10.5px var(--sans);
-  cursor:pointer;
-}
-.clear-bookmarks:hover{ border-color:var(--ember-soft); color:var(--ember); }
-.bookmark-entry{
-  border:1px solid var(--line);
-  background:var(--panel);
-  border-radius:var(--radius);
-  margin-bottom:10px;
-  padding:13px 15px;
-  cursor:pointer;
-  transition:border-color .15s,transform .15s;
-}
-.bookmark-entry:hover{
-  border-color:var(--ember-soft);
-  transform:translateY(-1px);
-}
-.bookmark-entry .be-top{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:7px;
-}
-.bookmark-entry .be-no{
-  color:var(--ember);
-  font-size:10.5px;
-  font-weight:600;
-}
-.bookmark-entry .be-ref{
-  color:var(--ash-dim);
-  font-size:10.5px;
-}
-.bookmark-entry .be-title{
-  color:var(--paper);
-  font-family:var(--deva);
-  font-size:15px;
-  line-height:1.8;
-}
-.bookmark-entry .be-path{
-  margin-top:6px;
-  color:var(--ash-dim);
-  font-size:10.5px;
-}
-.bookmarks-empty{
-  text-align:center;
-  padding:80px 20px;
-  color:var(--ash-dim);
-}
-.bookmarks-empty svg{ width:40px; height:40px; margin-bottom:12px; opacity:.5; }
-.bookmarks-empty p{ margin:0; font-size:13px; line-height:1.7; }
-
-@media (max-width:720px){
-  .rik-actions{ top:14px; right:0; }
-  .bookmark-btn span{ display:none; }
-  .bookmark-btn{ width:32px; height:32px; justify-content:center; padding:0; }
-  .bookmark-btn svg{ width:15px; height:15px; }
-  .rik-meta{ padding-right:40px; }
-  .bookmarks-panel .panel-title h2{ font-size:21px; }
-}
-
 
 .empty-state{
   text-align:center;
@@ -837,8 +700,8 @@ mark{
       <div class="brand">
         <div class="brand-mark">साम</div>
         <div class="brand-text">
-          <h1>Sāmaveda</h1>
-          <p>Five saṁhitā sections</p>
+          <h1>Sāma-gāna Archive</h1>
+          <p>Five saṁhitā sections · Sāmaveda</p>
         </div>
       </div>
       <div class="sidebar-search">
@@ -871,11 +734,6 @@ mark{
         <button id="zoomIn">+</button>
       </div>
 
-      <button class="icon-btn bookmark-top-btn" id="bookmarksToggle" title="Show bookmarks" aria-label="Show bookmarks">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5A2.5 2.5 0 0 1 8.5 1h7A2.5 2.5 0 0 1 18 3.5V22l-6-4-6 4V3.5z"/></svg>
-        <span class="bookmark-count" id="bookmarkCount">0</span>
-      </button>
-
       <button class="icon-btn" id="themeToggle" title="Toggle light/dark theme">
         <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -907,104 +765,6 @@ const TEXT_META = {
 
 let zoom = 1;
 let currentRikEl = null;
-
-/* ---------------- bookmarks ---------------- */
-const BOOKMARK_STORAGE_KEY = 'samaveda-bookmarks-v1';
-let bookmarks = new Set();
-
-try{
-  const saved = JSON.parse(localStorage.getItem(BOOKMARK_STORAGE_KEY) || '[]');
-  if(Array.isArray(saved)) bookmarks = new Set(saved);
-}catch(e){ bookmarks = new Set(); }
-
-function saveBookmarks(){
-  localStorage.setItem(BOOKMARK_STORAGE_KEY, JSON.stringify([...bookmarks]));
-  updateBookmarkCount();
-}
-
-function updateBookmarkCount(){
-  const el = document.getElementById('bookmarkCount');
-  if(!el) return;
-  el.textContent = bookmarks.size;
-  el.classList.toggle('show', bookmarks.size > 0);
-}
-
-function toggleBookmark(key){
-  if(bookmarks.has(key)) bookmarks.delete(key);
-  else bookmarks.add(key);
-  saveBookmarks();
-
-  const searchActive = globalSearch && globalSearch.value.trim();
-  if(searchActive) runGlobalSearch(globalSearch.value);
-  else renderAll();
-}
-
-function bookmarkData(key){
-  const m = key.match(/^rik-(\d+)-(\d+)-(\d+)$/);
-  if(!m) return null;
-  const ti=+m[1], si=+m[2], ri=+m[3];
-  const text=DATA[ti], sec=text?.sections?.[si], r=sec?.riks?.[ri];
-  return text && sec && r ? {ti,si,ri,text,sec,r} : null;
-}
-
-function showBookmarks(){
-  const entries = [...bookmarks].map(bookmarkData).filter(Boolean);
-  let html = `<div class="bookmarks-panel">
-    <div class="panel-title">
-      <div><h2>Bookmarks</h2><p>${entries.length} saved r̥k${entries.length===1?'':'s'}</p></div>
-      ${entries.length ? `<button class="clear-bookmarks" id="clearBookmarks">Clear all</button>` : ''}
-    </div>`;
-
-  if(!entries.length){
-    html += `<div class="bookmarks-empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5A2.5 2.5 0 0 1 8.5 1h7A2.5 2.5 0 0 1 18 3.5V22l-6-4-6 4V3.5z"/></svg>
-      <p>No bookmarks yet.<br>Use <b>Bookmark</b> on any r̥k to save it here.</p>
-    </div>`;
-  }else{
-    entries.forEach(({ti,si,ri,text,sec,r}) => {
-      const preview = r.samhita || r.pada || '';
-      html += `<div class="bookmark-entry" data-ti="${ti}" data-si="${si}" data-ri="${ri}">
-        <div class="be-top"><span class="be-no">${escapeHtml(r.rik_no ? `R̥k ${r.rik_no}` : `#${ri+1}`)}</span>${r.ref ? `<span class="be-ref">· ${escapeHtml(r.ref)}</span>` : ''}</div>
-        <div class="be-title">${escapeHtml(preview)}</div>
-        <div class="be-path">${escapeHtml(text.title)} · ${escapeHtml(sec.label)}</div>
-      </div>`;
-    });
-  }
-  html += `</div>`;
-  contentInner.innerHTML = html;
-  document.getElementById('crumb').innerHTML = `<b>Bookmarks</b> · ${entries.length}`;
-
-  const clearBtn = document.getElementById('clearBookmarks');
-  if(clearBtn) clearBtn.addEventListener('click', () => {
-    if(confirm('Remove all bookmarks?')){
-      bookmarks.clear();
-      saveBookmarks();
-      showBookmarks();
-    }
-  });
-  document.querySelectorAll('.bookmark-entry').forEach(el => {
-    el.addEventListener('click', () => {
-      const ti=+el.dataset.ti, si=+el.dataset.si, ri=+el.dataset.ri;
-      const key=`rik-${ti}-${si}-${ri}`;
-      if(globalSearch.value){
-        globalSearch.value='';
-        clearSearch.classList.remove('show');
-      }
-      renderAll();
-      requestAnimationFrame(() => scrollToRik(ti,si,ri));
-    });
-  });
-}
-
-document.getElementById('bookmarksToggle').addEventListener('click', showBookmarks);
-contentInner.addEventListener('click', (e) => {
-  const btn = e.target.closest('.bookmark-btn');
-  if(btn){
-    e.preventDefault();
-    e.stopPropagation();
-    toggleBookmark(btn.dataset.bookmark);
-  }
-});
 
 /* ---------------- sidebar tree build ---------------- */
 const treeRoot = document.getElementById('sidebarTree');
@@ -1106,15 +866,7 @@ function renderRik(text, ti, si, r, ri, searchOpts){
   const matchedIdx = (searchOpts && searchOpts.matchedSamaganaIdx) || null;
   const hl = (s) => terms ? highlightMatches(s, terms) : escapeHtml(s);
   const badge = r.rik_no ? `R̥k ${escapeHtml(String(r.rik_no))}` : '';
-  const bookmarkKey = `rik-${ti}-${si}-${ri}`;
-  const isBookmarked = bookmarks.has(bookmarkKey);
   let html = `<div class="rik-card" id="rik-${ti}-${si}-${ri}" data-text="${ti}" data-sec="${si}" data-rik="${ri}">`;
-  html += `<div class="rik-actions">
-    <button class="bookmark-btn${isBookmarked ? ' bookmarked' : ''}" data-bookmark="${bookmarkKey}" data-text="${ti}" data-sec="${si}" data-rik="${ri}" title="${isBookmarked ? 'Remove bookmark' : 'Bookmark this ṛk'}" aria-label="${isBookmarked ? 'Remove bookmark' : 'Bookmark this ṛk'}">
-      <svg viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5A2.5 2.5 0 0 1 8.5 1h7A2.5 2.5 0 0 1 18 3.5V22l-6-4-6 4V3.5z"/></svg>
-      <span>${isBookmarked ? 'Saved' : 'Bookmark'}</span>
-    </button>
-  </div>`;
   html += `<div class="rik-meta">`;
   if(badge) html += `<span class="rik-no-badge">${badge}</span>`;
   if(r.global_no) html += `<span class="global-badge" title="R̥k #${r.global_no} of ${TOTAL_RIKS} across all five texts">R̥k №${r.global_no}</span>`;
@@ -1474,7 +1226,7 @@ jumpTop.addEventListener('click', () => contentEl.scrollTo({top:0, behavior:'smo
 const themeToggle = document.getElementById('themeToggle');
 const iconMoon = document.getElementById('themeIconMoon');
 const iconSun = document.getElementById('themeIconSun');
-let theme = localStorage.getItem('samaveda-theme') || 'light';
+let theme = 'dark';
 function applyTheme(){
   document.documentElement.setAttribute('data-theme', theme);
   iconMoon.style.display = theme === 'dark' ? '' : 'none';
@@ -1482,7 +1234,6 @@ function applyTheme(){
 }
 themeToggle.addEventListener('click', () => {
   theme = theme === 'dark' ? 'light' : 'dark';
-  localStorage.setItem('samaveda-theme', theme);
   applyTheme();
 });
 
@@ -1509,12 +1260,10 @@ async function init(){
   renderAll();
   applyZoom();
   applyTheme();
-  updateBookmarkCount();
   document.querySelectorAll('.text-group')[0]?.classList.add('open');
 }
-contentInner.innerHTML = `<div class="empty-state"><p>Loading Sāmaveda…</p></div>`;
+contentInner.innerHTML = `<div class="empty-state"><p>Loading Sāmaveda archive…</p></div>`;
 init();
 </script>
 </body>
 </html>
-```
