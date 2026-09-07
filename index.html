@@ -828,6 +828,10 @@
         <span class="count">${nRiks}</span>`;
       toggle.addEventListener('click', () => {
         const wasOpen = group.classList.contains('open');
+        // collapse every other text-group so only one stays expanded at a time
+        document.querySelectorAll('.text-group').forEach(g => {
+          if(g !== group) g.classList.remove('open');
+        });
         group.classList.toggle('open');
         if(!wasOpen){ scrollToText(ti); }
       });
@@ -852,6 +856,10 @@
         secToggle.addEventListener('click', (e) => {
           e.stopPropagation();
           const wasOpen = secItem.classList.contains('open');
+          // collapse sibling sections within the same text so only one stays expanded
+          sectionList.querySelectorAll('.section-item').forEach(s => {
+            if(s !== secItem) s.classList.remove('open');
+          });
           secItem.classList.toggle('open');
           if(!wasOpen){ scrollToSection(ti, si); }
         });
@@ -1003,6 +1011,18 @@
       btn.classList.add('current');
       const secItem = btn.closest('.section-item');
       const group = btn.closest('.text-group');
+
+      // auto-collapse any other text-group that isn't the one we're navigating into
+      document.querySelectorAll('.text-group').forEach(g => {
+        if(g !== group) g.classList.remove('open');
+      });
+      // auto-collapse any other section within the current group
+      if(group){
+        group.querySelectorAll('.section-item').forEach(s => {
+          if(s !== secItem) s.classList.remove('open');
+        });
+      }
+
       if(secItem) secItem.classList.add('open', 'active-section');
       if(group){
         group.classList.add('open');
