@@ -6,7 +6,7 @@
   How it works:
     - This file contains ALL markup, styles, and behavior (no build step).
     - Verse data is NOT embedded here — it's fetched at runtime from
-      "/data/samaveda.json" (see the `init()` function near the bottom
+      "/data/prakritiaranyakagana.json" (see the `init()` function near the bottom
       of the <script>). That JSON must sit in a `data/` folder next to
       this index.html, and the page must be served over http(s)
       (opening via file:// blocks the fetch in most browsers).
@@ -1600,9 +1600,9 @@
      ============================================================ */
   async function init(){
     try{
-      // Data lives alongside this file at data/samaveda.json, fetched
+      // Data lives alongside this file at data/prakritiaranyakagana.json, fetched
       // fresh (no-cache) so edits to the JSON are picked up on reload.
-      const res = await fetch('/data/samaveda.json', {cache:'no-cache'});
+      const res = await fetch('/data/prakritiaranyakagana.json', {cache:'no-cache'});
       if(!res.ok) throw new Error('HTTP ' + res.status);
       DATA = await res.json();
     }catch(err){
@@ -1611,7 +1611,7 @@
       contentInner.innerHTML = `<div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <p><b>Could not load data.json.</b><br>${escapeHtml(err.message)}<br><br>
-        Make sure <code>data/samaveda.json</code> sits in a <code>data/</code> folder next to <code>index.html</code>
+        Make sure <code>data/prakritiaranyakagana.json</code> sits in a <code>data/</code> folder next to <code>index.html</code>
         and this page is served over http(s) (opening the file directly via <code>file://</code> blocks the fetch
         in most browsers — run a local server, e.g. <code>npx serve</code>, or deploy to Vercel).</p>
       </div>`;
