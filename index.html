@@ -2,12 +2,12 @@
   Sāmaveda — Landing Page
   ================
   Entry point for the site. Presents the two available corpora as cards:
-    1. ग्रामेगेय(वेय, प्रकृति)गानात्मकः  → gana.html   (data/prakritiaranyakagana.json)
+    1. ग्रामेगेय(वेय, प्रकृति)गानात्मकः  → prakritiganam.html   (data/prakritiaranyakagana.json)
     2. सूक्ततानि                          → suktas.html (data/suktas.json)
   and a universal search bar that fetches BOTH json files client-side,
   searches across them, and links each hit to the right reader
   (passing ?q=... so the reader auto-runs the same search on load).
-  Same design tokens/fonts as gana.html & suktas.html for visual continuity.
+  Same design tokens/fonts as prakritiganam.html & suktas.html for visual continuity.
 -->
 <!DOCTYPE html>
 <html lang="sa">
@@ -176,7 +176,7 @@
   </div>
 
   <div class="cards">
-    <a class="card" href="gana.html" id="ganaCard">
+    <a class="card" href="prakritiganam.html" id="ganaCard">
       <div class="card-mark">गा</div>
       <h3>ग्रामेगेय(वेय, प्रकृति)गानात्मकः</h3>
       <p class="subtitle">Prakr̥ti-Āraṇyaka Gāna Corpus</p>
@@ -329,7 +329,7 @@
       if(ganaHits.length){
         html += `<div class="sr-group-label">ग्रामेगेय(वेय, प्रकृति)गानात्मकः</div>`;
         ganaHits.forEach(h => {
-          const url = `gana.html?q=${encodeURIComponent(q)}`;
+          const url = `prakritiganam.html?q=${encodeURIComponent(q)}`;
           html += `<a class="sr-item" href="${url}">
             <div class="sr-title"><b>${escapeHtml(h.label)}</b> · gāna</div>
             <div class="sr-text">${highlight(snippet(h.text, terms), terms)}</div>
@@ -346,7 +346,7 @@
           </a>`;
         });
       }
-      html += `<a class="sr-more" href="gana.html?q=${encodeURIComponent(q)}">See all matches in गानम् →</a>`;
+      html += `<a class="sr-more" href="prakritiganam.html?q=${encodeURIComponent(q)}">See all matches in गानम् →</a>`;
       html += `<a class="sr-more" href="suktas.html?q=${encodeURIComponent(q)}">See all matches in सूक्ततानि →</a>`;
     }
     resultsBox.innerHTML = html;
