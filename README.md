@@ -9,7 +9,7 @@ in this project.
 ```
 .
 ├── index.html         # landing page — corpus cards + universal search across both files
-├── gana.html          # reader for the gāna corpus (UI, styling, search, all logic)
+├── prakritigana.html          # reader for the gāna corpus (UI, styling, search, all logic)
 ├── suktas.html        # reader for the sūkta corpus (UI, styling, search, all logic)
 ├── data/
 │   ├── prakritiaranyakagana.json   # gāna corpus, fetched at runtime via data/prakritiaranyakagana.json
