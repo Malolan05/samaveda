@@ -21,8 +21,8 @@ Nothing in `data/` is inlined into the HTML. All three pages `fetch()` their
 JSON at runtime (with `cache: 'no-cache'`, so edits to the data show up on a
 plain reload, no cache-busting needed), which means:
 
-- You can edit the `.json` files without touching any HTML/JS.
-- The pages must be served over `http(s)`. Opening a file directly via
+* You can edit the `.json` files without touching any HTML/JS.
+* The pages must be served over `http(s)`. Opening a file directly via
   `file://` will make the browser block the `fetch()` call (see
   [Local preview](#local-preview) below).
 
@@ -30,38 +30,39 @@ plain reload, no cache-busting needed), which means:
 
 ## Table of contents
 
-- [Site map](#site-map)
-- [How the three pages relate](#how-the-three-pages-relate)
-- [Design system](#design-system)
-- [Search, in detail](#search-in-detail)
-- [Deploy to Vercel](#deploy-to-vercel)
-- [Local preview](#local-preview)
-- [Updating the data](#updating-the-data)
-  - [`data/prakritiaranyakagana.json`](#dataprakritiaranyakaganajson)
-  - [`data/suktas.json`](#datasuktasjson)
-- [File-by-file reference](#file-by-file-reference)
-- [Browser support & known limitations](#browser-support--known-limitations)
-- [Troubleshooting](#troubleshooting)
-- [Extending the site](#extending-the-site)
+* [Site map](#site-map)
+* [How the three pages relate](#how-the-three-pages-relate)
+* [Design system](#design-system)
+* [Search, in detail](#search-in-detail)
+* [Deploy to Vercel](#deploy-to-vercel)
+* [Local preview](#local-preview)
+* [Updating the data](#updating-the-data)
+
+  * [`data/prakritiaranyakagana.json`](#dataprakritiaranyakaganajson)
+  * [`data/suktas.json`](#datasuktasjson)
+* [File-by-file reference](#file-by-file-reference)
+* [Browser support & known limitations](#browser-support--known-limitations)
+* [Troubleshooting](#troubleshooting)
+* [Extending the site](#extending-the-site)
 
 ---
 
 ## Site map
 
-| Page | Purpose | Data source | Route param |
-|---|---|---|---|
-| `index.html` | Landing page: hero, universal search, two corpus cards | fetches **both** JSON files (read-only, for search + stat counts) | — |
-| `gana.html` | Full reader for the gāna corpus: sidebar tree (text → section → r̥k), verse cards, attached sāma-gānas | `data/prakritiaranyakagana.json` | `?q=<term>` auto-runs a search on load |
-| `suktas.html` | Full reader for the sūkta corpus: sidebar list of sūktas, verse cards | `data/suktas.json` | `?q=<term>` auto-runs a search on load |
+| Page          | Purpose                                                                                                | Data source                                                       | Route param                            |
+| ------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- | -------------------------------------- |
+| `index.html`  | Landing page: hero, universal search, two corpus cards                                                 | fetches **both** JSON files (read-only, for search + stat counts) | —                                      |
+| `gana.html`   | Full reader for the gāna corpus: sidebar tree (text → section → r̥k), verse cards, attached sāma-gānas | `data/prakritiaranyakagana.json`                                  | `?q=<term>` auto-runs a search on load |
+| `suktas.html` | Full reader for the sūkta corpus: sidebar list of sūktas, verse cards                                  | `data/suktas.json`                                                | `?q=<term>` auto-runs a search on load |
 
 `index.html` is the entry point and the only page meant to be linked from
 outside the site. It links to:
 
-- **gana.html** — ग्रामेगेय(वेय, प्रकृति)गानात्मकः, the Prakr̥ti-Āraṇyaka Gāna
+* **gana.html** — ग्रामेगेय(वेय, प्रकृति)गानात्मकः, the Prakr̥ti-Āraṇyaka Gāna
   corpus. The order embedded in the data is unchanged: Āgnēyam → Aindram →
   Pavamānam → Āraṇyaka Gānam → Mahānāmnyarcikam, with continuous global
   r̥k/sāman numbering already baked into the JSON (`global_no` fields).
-- **suktas.html** — सूक्ततानि, standalone sūkta hymns (Puruṣasūktam,
+* **suktas.html** — सूक्ततानि, standalone sūkta hymns (Puruṣasūktam,
   Śrīsūktam, Lakṣmīsūktam, and any others added to the file).
 
 ## How the three pages relate
@@ -110,25 +111,28 @@ readable.
 Key tokens (light values shown; see `html[data-theme="dark"]` for the dark
 equivalents):
 
-| Token | Role |
-|---|---|
-| `--bg` / `--bg-soft` | page background / topbar background |
-| `--panel` / `--panel-2` | card and input surfaces / their hover state |
-| `--line` / `--line-soft` | primary borders / faint nested-tree borders |
+| Token                      | Role                                              |
+| -------------------------- | ------------------------------------------------- |
+| `--bg` / `--bg-soft`       | page background / topbar background               |
+| `--panel` / `--panel-2`    | card and input surfaces / their hover state       |
+| `--line` / `--line-soft`   | primary borders / faint nested-tree borders       |
 | `--ember` / `--ember-soft` | primary accent — active states, links, highlights |
-| `--gold` | secondary accent — stat numbers, small labels |
-| `--ash` / `--ash-dim` | mid-tone / muted body text |
-| `--paper` / `--paper-dim` | strongest text (headings) / body text |
-| `--radius` | shared corner radius for small controls (`3px`) |
+| `--gold`                   | secondary accent — stat numbers, small labels     |
+| `--ash` / `--ash-dim`      | mid-tone / muted body text                        |
+| `--paper` / `--paper-dim`  | strongest text (headings) / body text             |
+| `--radius`                 | shared corner radius for small controls (`3px`)   |
 
 Fonts (loaded from Google Fonts, `preconnect`-ed for speed):
 
-- `--serif` (Fraunces) — headings, brand wordmarks.
-- `--sans` (Inter) — UI chrome: buttons, labels, search inputs.
-- `--deva` (Noto Serif Devanagari, with a long fallback chain) — large
-  Sanskrit/Devanagari text: verse text, sāma-gāna text, brand marks.
-- `--deva-sans` (Noto Sans Devanagari) — smaller/secondary Devanagari text:
-  pada-pāṭha, metadata tags.
+* `Noto Serif` is the site-wide primary typeface across all three HTML pages:
+  headings, brand wordmarks, body text, buttons, labels, search inputs,
+  navigation, and other UI controls.
+* `Noto Serif Devanagari` is loaded alongside it as the Devanagari-specific
+  fallback, ensuring Sanskrit/Devanagari text remains properly shaped and
+  readable, including verse text, sāma-gāna text, brand marks, pada-pāṭha,
+  and metadata.
+* The previous Fraunces, Inter, and Noto Sans Devanagari font roles have been
+  removed; there is no separate sans-serif UI typeface.
 
 Both readers additionally expose a `--zoom` custom property (0.6–2.0,
 adjusted via the +/− buttons in the topbar), which every Sanskrit-text
@@ -191,6 +195,7 @@ if the corpora grow dramatically, see [Extending the site](#extending-the-site).
 ## Deploy to Vercel
 
 **CLI**
+
 ```bash
 npm i -g vercel
 cd this-folder
@@ -241,6 +246,7 @@ but keep an eye on brackets/commas since these are hand-editable files.
 ### `data/prakritiaranyakagana.json`
 
 An array of text objects:
+
 ```json
 [
   {
@@ -287,8 +293,9 @@ An array of text objects:
 
 Notes on individual fields:
 
-- **`key`** must match an entry in the `TEXT_META` map near the top of
+* **`key`** must match an entry in the `TEXT_META` map near the top of
   `gana.html`'s `<script>`:
+
   ```js
   const TEXT_META = {
     agneyam:   { translit: "Āgnēyam",           idx:"अ" },
@@ -298,10 +305,11 @@ Notes on individual fields:
     mahamnaya: { translit: "Mahānāmnyarcikam",  idx:"म" },
   };
   ```
+
   This controls the transliterated title and the single-glyph sidebar index
   shown for that text. If you add a sixth text with a new `key`, add a
   corresponding entry here or it will fall back to the raw `title`/`?`.
-- **`global_no`** (on both `rik` and `samagana` objects) powers the
+* **`global_no`** (on both `rik` and `samagana` objects) powers the
   "R̥k №N of TOTAL" / "Sāman №N of TOTAL" badges, which are computed against
   `TOTAL_RIKS`/`TOTAL_SAMANS` (summed once at load time across *all* texts).
   Keep numbering continuous and non-overlapping across all five (or more)
@@ -312,13 +320,13 @@ Notes on individual fields:
   even if `global_no` numbering has drifted; but the *badges inside*
   `gana.html`'s reader view will be wrong if `global_no` isn't kept
   continuous.
-- **`prapathaka` / `ardha` / `khanda` / `rishi` / `chandas` / `devata` /
+* **`prapathaka` / `ardha` / `khanda` / `rishi` / `chandas` / `devata` /
   `ref`** are all optional metadata tags rendered as small pills above the
   verse text (`renderRikMeta()`); omit any that don't apply to a given r̥k.
-- **`samhita`** is the accented Devanagari verse text (large font). **`pada`**
+* **`samhita`** is the accented Devanagari verse text (large font). **`pada`**
   is the word-by-word pada-pāṭha rendering (smaller, indented, left-bordered).
   **`notes`** is free-text, rendered in italics below the verse.
-- **`samaganas`** is an array (can be empty) — a single r̥k can have more
+* **`samaganas`** is an array (can be empty) — a single r̥k can have more
   than one attached sāma-gāna (sung version); each renders as its own small
   card beneath the verse, numbered by its own `no` field.
 
@@ -326,6 +334,7 @@ Notes on individual fields:
 
 A much flatter structure — an object with a `texts` array, each entry a
 sūkta with its verses as plain strings:
+
 ```json
 {
   "texts": [
@@ -344,31 +353,31 @@ sūkta with its verses as plain strings:
 }
 ```
 
-- No numbering or metadata fields are needed per verse — `suktas.html`
+* No numbering or metadata fields are needed per verse — `suktas.html`
   numbers them positionally (ऋक् 1, 2, 3…, i.e. `index + 1` in the `verses`
   array) and derives all sidebar/footer stat counts (`N sūktas · M ऋचः`)
   directly from array lengths at load time. There's no `global_no`
   equivalent here since sūktas are treated as independent hymns rather than
   one continuously-numbered corpus.
-- To add a new sūkta: append a new `{ "title": ..., "verses": [...] }`
+* To add a new sūkta: append a new `{ "title": ..., "verses": [...] }`
   object to the `texts` array.
-- To add a verse to an existing sūkta: append a new string to that sūkta's
+* To add a verse to an existing sūkta: append a new string to that sūkta's
   `verses` array. No other file needs to change — the sidebar count, the
   reader's verse cards, and the landing page's stat line and search index
   all pick it up automatically on next load.
-- Keep each verse as a single string (embed internal punctuation/line-break
+* Keep each verse as a single string (embed internal punctuation/line-break
   markers as you already do, e.g. `॥`, `।`) — the renderer does not split a
   verse string into sub-parts.
 
 ## File-by-file reference
 
-- **`index.html`** — self-contained: a `<style>` block with the design
+* **`index.html`** — self-contained: a `<style>` block with the design
   tokens described above, then a `<script>` that (a) toggles `data-theme`,
   (b) fetches both JSON files and populates the two card stat lines, (c)
   implements the universal search box (`runSearch()`, `matchGana()`,
   `matchSuktas()`, `snippet()`), and (d) has no sidebar/tree logic since the
   landing page has no navigable content of its own beyond the two cards.
-- **`gana.html`** — the largest file. Structure: `<style>` (design tokens +
+* **`gana.html`** — the largest file. Structure: `<style>` (design tokens +
   every component's CSS — sidebar tree, topbar, r̥k cards, sāma-gāna cards,
   search-result notes, mobile breakpoints), then `<body>` markup for the
   two-pane app shell (`.sidebar` / `.main`), then a `<script>` containing:
@@ -378,51 +387,50 @@ sūkta with its verses as plain strings:
   `highlightMatches()`), zoom controls, scroll-spy (keeps the sidebar and
   breadcrumb in sync with what's on screen while scrolling), and `init()`
   (fetch → build tree/index → initial render → pick up `?q=`).
-- **`suktas.html`** — a lighter-weight sibling of `gana.html` built for the
+* **`suktas.html`** — a lighter-weight sibling of `gana.html` built for the
   flatter sūkta data shape: sidebar is a flat list of sūktas (no
   text→section→rik tree), search is a single-pass scorer over verse text +
   parent title (no per-field weighting, no attached-sub-item highlighting
   since sūktas have no equivalent of sāma-gānas), otherwise mirrors
   `gana.html`'s theme toggle, zoom, scroll-spy, and `?q=` pickup.
-- **`data/prakritiaranyakagana.json`** / **`data/suktas.json`** — see
+* **`data/prakritiaranyakagana.json`** / **`data/suktas.json`** — see
   [Updating the data](#updating-the-data).
-- **`vercel.json`** — optional static-hosting config (headers only; no
+* **`vercel.json`** — optional static-hosting config (headers only; no
   routing or build config needed since there's nothing to build).
 
 ## Browser support & known limitations
 
-- Requires a browser with `fetch()`, CSS custom properties, and
+* Requires a browser with `fetch()`, CSS custom properties, and
   `String.prototype.normalize('NFC')` support — i.e. any evergreen browser
   (Chrome/Edge/Firefox/Safari, recent versions). No transpilation or
   polyfills are included.
-- No offline/service-worker support — every page load re-fetches its JSON.
-- No `localStorage`/`sessionStorage` usage anywhere (theme and zoom are
+* No offline/service-worker support — every page load re-fetches its JSON.
+* No `localStorage`/`sessionStorage` usage anywhere (theme and zoom are
   intentionally session-only, resetting on reload).
-- Devanagari rendering quality (conjuncts, mātrā placement, Vedic accent
-  glyphs) depends on the fonts actually available/rendering correctly in
-  the visitor's browser; the `--deva`/`--deva-sans` font stacks list
-  several fallbacks after Noto Serif/Sans Devanagari, but very old or
-  headless browsers may render some Vedic accent marks (`꣡ ꣢ ꣣` etc.) as
-  tofu boxes.
-- The landing page's universal search is a best-effort preview, not a
+* Devanagari rendering quality (conjuncts, mātrā placement, Vedic accent
+  glyphs) depends on the fonts actually available/rendering correctly in the
+  visitor's browser. `Noto Serif Devanagari` is loaded as the primary
+  Devanagari fallback, but very old or headless browsers may render some
+  Vedic accent marks (`꣡ ꣢ ꣣` etc.) as tofu boxes.
+* The landing page's universal search is a best-effort preview, not a
   byte-for-byte reproduction of each reader's own (more heavily weighted)
   scoring — see [Search, in detail](#search-in-detail).
 
 ## Troubleshooting
 
-- **"Could not load … .json" error state on any page** — you're most likely
+* **"Could not load … .json" error state on any page** — you're most likely
   opening the file via `file://` (blocked by the browser) instead of
   serving it over `http(s)`, or the JSON file isn't present at the expected
   `data/…json` path relative to the HTML file. See
   [Local preview](#local-preview).
-- **A r̥k's "R̥k №N of TOTAL" badge looks wrong** — check that `global_no`
+* **A r̥k's "R̥k №N of TOTAL" badge looks wrong** — check that `global_no`
   values in `prakritiaranyakagana.json` are unique and continuous across
   *all* texts, not just within one text/section.
-- **New sūkta/text doesn't show up in the sidebar** — hard-refresh
+* **New sūkta/text doesn't show up in the sidebar** — hard-refresh
   (`fetch` already uses `cache: 'no-cache'`, so this is usually a JSON
   syntax error rather than a caching issue; validate the file with any
   JSON linter, or just `JSON.parse()` it in a browser console).
-- **Search finds a verse on the landing page but 0 results after clicking
+* **Search finds a verse on the landing page but 0 results after clicking
   through** — normalization differs (e.g. a term only matches a field the
   landing page checks but the reader's scorer doesn't, or vice versa); see
   [Search, in detail](#search-in-detail) for exactly which fields each
@@ -432,14 +440,14 @@ sūkta with its verses as plain strings:
 
 Some natural next steps if you want to build on this:
 
-- **A third corpus**: duplicate `suktas.html` as a starting point (it's the
+* **A third corpus**: duplicate `suktas.html` as a starting point (it's the
   simpler of the two readers), point it at a new `data/*.json` file, add a
   third card to `index.html`, and extend the landing page's `loadData()` /
   `runSearch()` to fetch and search the new file too.
-- **Persisting theme/zoom** across visits: swap the in-memory `currentTheme`
+* **Persisting theme/zoom** across visits: swap the in-memory `currentTheme`
   /`zoom` variables for `localStorage` reads/writes in each page's theme-
   toggle and zoom-button handlers.
-- **Shareable deep links** into a specific r̥k or sūkta verse (not just a
+* **Shareable deep links** into a specific r̥k or sūkta verse (not just a
   search query): each verse/r̥k card already has a stable `id` attribute
   (`rik-${ti}-${si}-${ri}` in `gana.html`, `v-${ti}-${vi}` in `suktas.html`),
   so a `#hash`-based scroll-to-and-highlight on load would be a small
