@@ -1,13 +1,15 @@
 <!--
   Sāmaveda — Landing Page
   ================
-  Entry point for the site. Presents the two available corpora as cards:
-    1. ग्रामेगेय(वेय, प्रकृति)गानात्मकः  → prakritiganam.html   (data/prakritiaranyakagana.json)
-    2. सूक्ततानि                          → suktas.html (data/suktas.json)
-  and a universal search bar that fetches BOTH json files client-side,
+  Entry point for the site. Presents the three available corpora as cards:
+    1. ग्रामेगेय(वेय, प्रकृति)गानात्मकः  → prakritiganam.html          (data/prakritiaranyakagana.json)
+    2. 𑌗𑍍𑌰𑌾𑌮𑍇𑌗𑍇𑌯𑌗𑌾𑌨𑌂 (Grantha)     → prakritiganam-grantha.html (data/prakritaranyakagana-grantha.json)
+    3. सूक्ततानि                          → suktas.html                (data/suktas.json)
+  and a universal search bar that fetches ALL THREE json files client-side,
   searches across them, and links each hit to the right reader
   (passing ?q=... so the reader auto-runs the same search on load).
-  Same design tokens/fonts as prakritiganam.html & suktas.html for visual continuity.
+  Same design tokens/fonts as prakritiganam.html, prakritiganam-grantha.html
+  & suktas.html for visual continuity.
 -->
 <!DOCTYPE html>
 <html lang="sa">
@@ -17,7 +19,7 @@
   <title>Sāmaveda</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Noto+Serif+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Noto+Serif+Grantha&display=swap" rel="stylesheet">
   <style>
     html, body, body *, input, button, textarea, select { font-family: 'Noto Serif', 'Noto Serif Devanagari', Georgia, serif; }
     :root {
@@ -29,6 +31,7 @@
       --serif: 'Noto Serif', 'Noto Serif Devanagari', Georgia, serif;
       --deva: 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', 'Kokila', 'Utsaah', 'Aparajita', 'Lohit Devanagari', 'Arial Unicode MS', sans-serif, serif;
       --deva-sans: 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Nirmala UI', 'Mangal', 'Kohinoor Devanagari', 'Kokila', 'Utsaah', 'Aparajita', 'Lohit Devanagari', 'Arial Unicode MS', sans-serif;
+      --grantha: 'Noto Serif Grantha', 'Noto Sans Grantha', 'Noto Serif Devanagari', serif;
     }
     html[data-theme="dark"] {
       --bg: #191510; --bg-soft: #211b14; --panel: #221c15; --panel-2: #2a2219;
@@ -118,7 +121,8 @@
     .sr-more { display:block; text-align:center; padding:12px; font-size:11.5px; color: var(--ash-dim); border-top:1px solid var(--line-soft); }
 
     /* ---------- corpus cards ---------- */
-    .cards { display:grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 46px; }
+    .cards { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; margin-top: 46px; }
+    @media (max-width: 980px) { .cards { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 680px) { .cards { grid-template-columns: 1fr; } }
     .card {
       display:block; text-decoration:none; background: var(--panel); border:1px solid var(--line);
@@ -172,7 +176,7 @@
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div class="search-hint" id="searchHint">Searching across ग्रामेगेयगानम् and सूक्ततानि both.</div>
+    <div class="search-hint" id="searchHint">Searching across ग्रामेगेयगानम्, its Grantha edition, and सूक्ततानि.</div>
     <div class="search-results hide" id="searchResults"></div>
   </div>
 
@@ -184,6 +188,17 @@
       <p class="desc">सामवेदस्य ऋक्, तत्संलग्नानि साम-गानानि च — प्रपाठक, अर्ध, खण्ड, ऋषि, छन्दस्, देवता क्रमेण संरचितानि। पूर्णं वृक्षनौचालनं, सर्वव्यापि अन्वेषणं, तथा पाठ-आकार नियन्त्रणं सह।</p>
       <div class="stats" id="ganaStats"><span>Loading counts…</span></div>
       <div class="enter">Explore गानम्
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </a>
+
+    <a class="card" href="prakritiganam-grantha.html" id="granthaCard">
+      <div class="card-mark" style="font-family: var(--grantha);">𑌗𑌾</div>
+      <h3 style="font-family: var(--grantha);">𑌗𑍍𑌰𑌾𑌮𑍇𑌗𑍇𑌯𑌗𑌾𑌨𑌂</h3>
+      <p class="subtitle">Prakr̥ti-Āraṇyaka Gāna Corpus · Grantha script</p>
+      <p class="desc">वही सामवेद-गान संहिता — किन्तु ग्रन्थ-लिप्यां (Grantha script) संरचिता, त्रिगुणित-पङ्क्त्यन्तरेण (triple line-spacing) सह पठनीया। समान वृक्ष-नौचालनं व अन्वेषणं।</p>
+      <div class="stats" id="granthaStats"><span>Loading counts…</span></div>
+      <div class="enter">Explore Grantha
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </div>
     </a>
@@ -234,8 +249,9 @@
   }
 
   /* ---------- load both corpora ---------- */
-  let GANA = [];     // DATA from prakritiaranyakagana.json (texts -> sections -> riks -> samaganas)
-  let SUKTAS = [];   // texts from suktas.json ({title, verses:[...]})
+  let GANA = [];          // DATA from prakritiaranyakagana.json (texts -> sections -> riks -> samaganas)
+  let GANA_GRANTHA = [];  // same shape, Grantha-script data from prakritaranyakagana-grantha.json
+  let SUKTAS = [];        // texts from suktas.json ({title, verses:[...]})
   const TEXT_META = {
     agneyam: "Āgnēyam", aindram: "Aindram", pavamanam: "Pavamānam",
     aranyaka: "Āraṇyaka Gānam", mahamnaya: "Mahānāmnyarcikam",
@@ -246,6 +262,10 @@
       const res = await fetch('data/prakritiaranyakagana.json', {cache:'no-cache'});
       if(res.ok) GANA = await res.json();
     }catch(e){ /* card still links out; search just won't cover it */ }
+    try{
+      const resG = await fetch('data/prakritaranyakagana-grantha.json', {cache:'no-cache'});
+      if(resG.ok) GANA_GRANTHA = await resG.json();
+    }catch(e){ /* same */ }
     try{
       const res2 = await fetch('data/suktas.json', {cache:'no-cache'});
       if(res2.ok){ const j = await res2.json(); SUKTAS = j.texts || []; }
@@ -258,6 +278,13 @@
       document.getElementById('ganaStats').innerHTML = `<span><b>${GANA.length}</b> texts</span><span><b>${nRiks}</b> r̥ks</span><span><b>${nSaman}</b> sāma-gānas</span>`;
     } else {
       document.getElementById('ganaStats').innerHTML = `<span>Open to browse</span>`;
+    }
+    if(Array.isArray(GANA_GRANTHA) && GANA_GRANTHA.length){
+      const nRiksG = GANA_GRANTHA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.length,0),0);
+      const nSamanG = GANA_GRANTHA.reduce((a,t)=>a+t.sections.reduce((b,s)=>b+s.riks.reduce((c,r)=>c+r.samaganas.length,0),0),0);
+      document.getElementById('granthaStats').innerHTML = `<span><b>${GANA_GRANTHA.length}</b> texts</span><span><b>${nRiksG}</b> r̥ks</span><span><b>${nSamanG}</b> sāma-gānas</span>`;
+    } else {
+      document.getElementById('granthaStats').innerHTML = `<span>Open to browse</span>`;
     }
     if(SUKTAS.length){
       const nVerses = SUKTAS.reduce((a,t)=>a+t.verses.length,0);
@@ -297,6 +324,30 @@
     });
     return hits;
   }
+  function matchGanaGrantha(terms){
+    const hits = [];
+    GANA_GRANTHA.forEach((text, ti) => {
+      const meta = TEXT_META[text.key] || text.title;
+      text.sections.forEach((sec, si) => {
+        sec.riks.forEach((r, ri) => {
+          const hay = normalize([r.samhita, r.pada, r.rishi, r.devata, r.chandas, r.notes].filter(Boolean).join(' ')).toLowerCase();
+          if(terms.every(t => hay.includes(t))){
+            hits.push({ kind:'gana-grantha', ti, si, ri, label: meta, text: r.samhita || r.pada || '' });
+            return;
+          }
+          (r.samaganas||[]).some(sg => {
+            const sgHay = normalize([sg.text, sg.rishi, sg.devata, sg.chandas, sg.notes].filter(Boolean).join(' ')).toLowerCase();
+            if(terms.every(t => sgHay.includes(t))){
+              hits.push({ kind:'gana-grantha', ti, si, ri, label: meta, text: sg.text || '' });
+              return true;
+            }
+            return false;
+          });
+        });
+      });
+    });
+    return hits;
+  }
   function matchSuktas(terms){
     const hits = [];
     SUKTAS.forEach((text, tsi) => {
@@ -319,10 +370,11 @@
     if(!terms.length){ resultsBox.classList.add('hide'); return; }
 
     const ganaHits = matchGana(terms).slice(0, 8);
+    const granthaHits = matchGanaGrantha(terms).slice(0, 8);
     const suktaHits = matchSuktas(terms).slice(0, 8);
-    const total = ganaHits.length + suktaHits.length;
+    const total = ganaHits.length + granthaHits.length + suktaHits.length;
 
-    let html = `<div class="sr-note">Found <b>${total}</b> match${total===1?'':'es'} for "<b>${escapeHtml(q)}</b>" across both corpora</div>`;
+    let html = `<div class="sr-note">Found <b>${total}</b> match${total===1?'':'es'} for "<b>${escapeHtml(q)}</b>" across all corpora</div>`;
 
     if(!total){
       html += `<div class="sr-empty">No verses match. Try fewer or different terms — accent marks are ignored automatically.</div>`;
@@ -337,6 +389,16 @@
           </a>`;
         });
       }
+      if(granthaHits.length){
+        html += `<div class="sr-group-label">𑌗𑍍𑌰𑌾𑌮𑍇𑌗𑍇𑌯𑌗𑌾𑌨𑌂 (Grantha)</div>`;
+        granthaHits.forEach(h => {
+          const url = `prakritiganam-grantha.html?q=${encodeURIComponent(q)}`;
+          html += `<a class="sr-item" href="${url}">
+            <div class="sr-title"><b>${escapeHtml(h.label)}</b> · gāna (Grantha)</div>
+            <div class="sr-text" style="font-family: var(--grantha);">${highlight(snippet(h.text, terms), terms)}</div>
+          </a>`;
+        });
+      }
       if(suktaHits.length){
         html += `<div class="sr-group-label">सूक्ततानि</div>`;
         suktaHits.forEach(h => {
@@ -348,6 +410,7 @@
         });
       }
       html += `<a class="sr-more" href="prakritiganam.html?q=${encodeURIComponent(q)}">See all matches in गानम् →</a>`;
+      html += `<a class="sr-more" href="prakritiganam-grantha.html?q=${encodeURIComponent(q)}">See all matches in 𑌗𑌾𑌨𑌂 (Grantha) →</a>`;
       html += `<a class="sr-more" href="suktas.html?q=${encodeURIComponent(q)}">See all matches in सूक्ततानि →</a>`;
     }
     resultsBox.innerHTML = html;
